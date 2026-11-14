@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kyro Chat — Welcome</title>
+  <meta name="theme-color" content="#070712" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="images/icon-192.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="kyro-redesign.css" />
+  <link rel="stylesheet" href="kyro-design.css" />
+  <link rel="stylesheet" href="legal.css" />
+  <script src="js/kyro.js"></script>
+  <script>if (window.Kyro && Kyro.bounceIfAuthed()) {}</script>
+</head>
+<body>
+  <div class="ambient">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <main class="onboarding" id="onboarding">
+    <div class="top-bar">
+      <div class="brand">
+        <img src="images/logo.jpg" alt="Kyro Chat" class="brand-logo" />
+        <span>Kyro Chat</span>
+      </div>
+      <button class="skip-btn" id="skipBtn" type="button">Skip</button>
+    </div>
+
+    <div class="progress-track" aria-hidden="true">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <div class="slides" id="slides">
+      <!-- Slide 1: Welcome -->
+      <section class="slide is-active" data-slide="0">
+        <div class="slide-visual">
+          <img src="images/welcome-bg.jpg" alt="" class="slide-img glow-img" />
+          <div class="visual-overlay"></div>
+        </div>
+        <div class="slide-copy">
+          <p class="eyebrow reveal">A new way to talk</p>
+          <h1 class="reveal delay-1">Welcome to <span class="gradient-text">Kyro Chat</span></h1>
+          <p class="lede reveal delay-2">
+            Fast, private, and beautifully simple messaging built for real conversations —
+            with friends, groups, and communities you actually care about.
+          </p>
+        </div>
+      </section>
+
+      <!-- Slide 2: Privacy -->
+      <section class="slide" data-slide="1">
+        <div class="slide-visual">
+          <img src="images/privacy.jpg" alt="Private encrypted chat on a phone" class="slide-img" />
+        </div>
+        <div class="slide-copy">
+          <p class="eyebrow reveal">Your space stays yours</p>
+          <h2 class="reveal delay-1">Enjoy messages with <span class="gradient-text">enhanced privacy</span></h2>
+          <p class="lede reveal delay-2">
+            Conversations are protected so only the people you choose can read them.
+            No noise, no extra eyes — just you and the people you trust.
+          </p>
+        </div>
+      </section>
+
+      <!-- Slide 3: Groups -->
+      <section class="slide" data-slide="2">
+        <div class="slide-visual">
+          <img src="images/groups.jpg" alt="Friends connected in a group chat" class="slide-img" />
+        </div>
+        <div class="slide-copy">
+          <p class="eyebrow reveal">Together is better</p>
+          <h2 class="reveal delay-1">Connect easily with friends in <span class="gradient-text">groups &amp; communities</span></h2>
+          <p class="lede reveal delay-2">
+            Create groups, join communities, and keep everyone in the loop.
+            Share updates, plans, and laughs without the chaos.
+          </p>
+        </div>
+      </section>
+
+      <!-- Slide 4: Security -->
+      <section class="slide" data-slide="3">
+        <div class="slide-visual">
+          <img src="images/security.jpg" alt="Shield and lock representing app security" class="slide-img" />
+        </div>
+        <div class="slide-copy">
+          <p class="eyebrow reveal">Built to protect</p>
+          <h2 class="reveal delay-1">Enhanced <span class="gradient-text">security</span> you can feel</h2>
+          <p class="lede reveal delay-2">
+            Strong encryption, careful design, and privacy-first choices —
+            so Kyro Chat stays safe without getting in your way.
+          </p>
+        </div>
+      </section>
+
+      <!-- Slide 5: Calls -->
+      <section class="slide" data-slide="4">
+        <div class="slide-visual">
+          <img src="images/calls.jpg" alt="Making a clear video call on Kyro Chat" class="slide-img" />
+          <div class="call-badges">
+            <span class="badge">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.81.36 1.6.68 2.35a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.75.32 1.54.55 2.35.68A2 2 0 0 1 22 16.92z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Voice
+            </span>
+            <span class="badge">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M23 7l-7 5 7 5V7z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="1" y="5" width="15" height="14" rx="2" stroke="currentColor" stroke-width="1.8"/></svg>
+              Video
+            </span>
+          </div>
+        </div>
+        <div class="slide-copy">
+          <p class="eyebrow reveal">Talk like you’re there</p>
+          <h2 class="reveal delay-1">Make <span class="gradient-text">seamless calls</span></h2>
+          <p class="lede reveal delay-2">
+            Jump from a chat into a crystal-clear voice or video call in one tap.
+            Stay close, even when you’re far apart.
+          </p>
+        </div>
+      </section>
+
+      <!-- Slide 6: Founders -->
+      <section class="slide" data-slide="5">
+        <div class="slide-visual">
+          <img src="images/founders.jpg" alt="Kyro Chat founders building frontend and backend" class="slide-img" />
+        </div>
+        <div class="slide-copy">
+          <p class="eyebrow reveal">The people behind Kyro</p>
+          <h2 class="reveal delay-1">Founded by <span class="gradient-text">Vael Tech</span> &amp; <span class="gradient-text">Jose Grid</span></h2>
+          <p class="lede reveal delay-2">
+            Kyro Chat is split into two repos: one for the frontend and one for the backend.
+            This project is the frontend — the screens, animations, and chat UI you see here.
+          </p>
+          <div class="repo-pills reveal delay-2">
+            <span class="pill pill-on">Frontend · this repo</span>
+            <span class="pill">Backend · separate repo</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 7: Join -->
+      <section class="slide slide-cta" data-slide="6">
+        <div class="cta-card">
+          <img src="images/logo.jpg" alt="Kyro Chat logo" class="cta-logo" />
+          <h2 class="reveal">Join us <span class="gradient-text">today</span></h2>
+          <p class="lede reveal delay-1">
+            Create your free account and start chatting with better privacy,
+            groups, and calls — all in one place.
+          </p>
+          <div class="cta-actions reveal delay-2">
+            <a class="btn btn-primary" href="signup.html">Create account</a>
+            <a class="btn btn-ghost" href="login.html">Login</a>
+          </div>
+          <p class="legal-line reveal delay-2">By continuing you agree to our <a href="terms.html">Terms</a> and <a href="privacy.html">Privacy Policy</a>.</p>
+        </div>
+      </section>
+    </div>
+
+    <div class="bottom-nav">
+      <button class="nav-btn" id="prevBtn" type="button" aria-label="Previous slide">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="dots" id="dots" role="tablist" aria-label="Onboarding slides"></div>
+      <button class="nav-btn nav-next" id="nextBtn" type="button" aria-label="Next slide">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
