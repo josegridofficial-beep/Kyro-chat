@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />
+  <title>Kyro Chat</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <meta name="theme-color" content="#070712" id="themeColor" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Kyro" />
+  <link rel="apple-touch-icon" href="https://files.manuscdn.com/search-media/310519664080918235/gBoqnpmfqZuKQ8LN73tzbE/3zUMeQzXwtpUL2Mu3HvWuQ.jpg" />
+  <link rel="stylesheet" href="kyro-appshell.css" />
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("kyro.theme") || "dark";
+        var light = t === "light" || (t === "system" && window.matchMedia("(prefers-color-scheme: light)").matches);
+        document.documentElement.setAttribute("data-theme", light ? "light" : "dark");
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="app.css" />
+  <link rel="stylesheet" href="kyro-extras.css" />
+  <link rel="stylesheet" href="kyro-chat-extras.css" />
+  <link rel="stylesheet" href="kyro-pinpoll.css" />
+  <link rel="stylesheet" href="kyro-more.css" />
+  <link rel="stylesheet" href="kyro-profile.css" />
+  <link rel="stylesheet" href="kyro-vanish.css" />
+  <link rel="stylesheet" href="kyro-groups.css" />
+  <link rel="stylesheet" href="kyro-status.css" />
+  <link rel="stylesheet" href="kyro-group-pro.css" />
+  <link rel="stylesheet" href="kyro-redesign.css" />
+  <link rel="stylesheet" href="kyro-polish.css" />
+  <link rel="stylesheet" href="kyro-ticks-swipe.css" />
+  <link rel="stylesheet" href="kyro-design.css" />
+  <link rel="stylesheet" href="kyro-smooth.css" />
+  <link rel="stylesheet" href="kyro-skeleton.css" />
+  <link rel="stylesheet" href="kyro-doubletap.css" />
+  <link rel="stylesheet" href="kyro-stickers-plus.css" />
+  <link rel="stylesheet" href="kyro-unread.css" />
+  <link rel="stylesheet" href="kyro-zoom.css" />
+  <link rel="stylesheet" href="kyro-msgtools.css" />
+  <link rel="stylesheet" href="kyro-voice.css" />
+  <link rel="stylesheet" href="kyro-communities.css">
+  <link rel="stylesheet" href="kyro-profile-sheet.css">
+  <link rel="stylesheet" href="kyro-newchat.css">
+  <link rel="stylesheet" href="kyro-round.css" />
+  <link rel="stylesheet" href="kyro-select.css" />
+  <link rel="stylesheet" href="kyro-plus.css" />
+  <link rel="stylesheet" href="kyro-editor.css" />
+  <link rel="stylesheet" href="kyro-gif.css" />
+  <link rel="stylesheet" href="kyro-contact.css" />
+  <link rel="stylesheet" href="kyro-search.css" />
+  <link rel="stylesheet" href="kyro-translate.css" />
+  <link rel="stylesheet" href="kyro-sticker-packs.css" />
+  <link rel="stylesheet" href="kyro-finish.css" />
+  <link rel="stylesheet" href="legal.css" />
+  <link rel="stylesheet" href="kyro-organize.css" />
+  <link rel="stylesheet" href="kyro-privacy.css" />
+  <link rel="stylesheet" href="kyro-theme.css" />
+  <link rel="stylesheet" href="kyro-smart.css" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="kyro-native.css" />
+  <link rel="stylesheet" href="kyro-keyboard.css" />
+</head>
+<body class="app-body is-loading">
+  <div id="kSplash" aria-hidden="true"><img src="https://files.manuscdn.com/search-media/310519664080918235/gBoqnpmfqZuKQ8LN73tzbE/3zUMeQzXwtpUL2Mu3HvWuQ.jpg" alt="" /><b>Kyro Chat</b></div>
+  <div class="kyro-loader" id="kyroLoader">
+    <div class="loader-rings" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </div>
+    <img class="loader-logo" src="https://files.manuscdn.com/search-media/310519664080918235/gBoqnpmfqZuKQ8LN73tzbE/BKEzHJwq9KQAgfiMxz427F.jpg" alt="Kyro Chat" />
+    <h2>Kyro Chat</h2>
+    <p>Connecting your chats…</p>
+  </div>
+  <div class="ambient" aria-hidden="true">
+    <span class="orb orb-1"></span>
+    <span class="orb orb-2"></span>
+    <span class="orb orb-3"></span>
+  </div>
+  <div class="wa-app" id="appRoot">
+    <header class="wa-top" id="mainTop">
+      <div class="brand-block">
+        <img class="mini-logo" src="https://files.manuscdn.com/search-media/310519664080918235/gBoqnpmfqZuKQ8LN73tzbE/BKEzHJwq9KQAgfiMxz427F.jpg" alt="" />
+        <div>
+          <h1 id="topTitle">Kyro</h1>
+          <p class="role-pill" id="rolePill">User</p>
+        </div>
+      </div>
+      <button class="icon-round" id="searchToggle" type="button" aria-label="Search">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M15.5 14h-.8l-.3-.3A6.5 6.5 0 1 0 14 15.5l.3.3v.8l5 5 1.5-1.5-5-5zm-6 0a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z"/></svg>
+      </button>
+    </header>
+
+    <div class="wa-search" id="searchBar" hidden>
+      <input id="searchInput" type="search" placeholder="Search contacts, email or phone" />
+    </div>
+
+    <main class="wa-main">
+      <section class="tab-page is-on" data-tab="chats">
+        <div class="empty-box" id="chatsEmpty">
+          <div class="empty-art" aria-hidden="true">&#128172;</div>
+          <p>No chats yet</p>
+          <small>Tap + to message someone</small>
+          <button class="fab-inline" id="emptyPlus" type="button">+</button>
+        </div>
+        <div class="chips" id="chatChips">
+          <button type="button" data-f="all" class="on">All</button>
+          <button type="button" data-f="unread">Unread</button>
+          <button type="button" data-f="fav">Favorites</button>
+          <button type="button" data-f="pinned">Pinned</button>
+          <button type="button" data-f="archived">Archived</button>
+        </div>
+        <div class="list" id="chatList"></div>
+        <button class="fab" id="plusBtn" type="button" aria-label="New">+</button>
+      </section>
+
+      <section class="tab-page" data-tab="story">
+        <p class="hint status-note">Stories disappear after 24 hours</p>
+        <div class="status-row" id="storyList"></div>
+      </section>
+
+      <section class="tab-page" data-tab="communities">
+        <button class="story-add" id="addCommunityBtn" type="button">+ New community</button>
+        <div class="list" id="communityList"></div>
+      </section>
+
+      <section class="tab-page" data-tab="calls">
+        <div class="empty-box">
+          <p>No calls yet. Open a contact and tap the call icon.</p>
+        </div>
+        <div class="list" id="callList"></div>
+      </section>
+
+      <section class="tab-page" data-tab="account">
+        <div class="account-card">
+          <div class="me-avatar lg" id="meAvatar">K</div>
+          <h2 id="meName">You</h2>
+          <p class="me-user" id="meUsername"></p>
+          <p class="me-bio" id="meBio"></p>
+          <button class="btn btn-ghost" id="editProfileBtn" type="button" style="margin-top:12px">Edit profile</button>
+          <p id="meEmail">signed in</p>
+          <p id="meRoleLine"></p>
+        </div>
+        <div class="admin-box" id="adminBox" hidden>
+          <h3>Admin tools</h3>
+          <p class="hint">Only admins see this.</p>
+          <button class="btn btn-ghost" id="loadUsersBtn" type="button">Load all users</button>
+          <div class="list" id="adminUsers"></div>
+        </div>
+        <button class="btn btn-ghost" id="settingsBtn" type="button" style="width:100%;margin-top:16px">Settings</button>
+        <button class="btn btn-ghost" id="logoutBtn" type="button" style="width:100%;margin-top:16px">Log out</button>
+      </section>
+    </main>
+
+    <nav class="wa-footer">
+      <button class="tab is-on" data-go="chats" type="button"><span class="tab-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M4 4h16v12H7l-3 3V4zm4 5h8v2H8V9zm0-3h8v2H8V6z"/></svg></span>Chats</button>
+      <button class="tab" data-go="story" type="button"><span class="tab-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4"/></svg></span>Story</button>
+      <button class="tab" data-go="communities" type="button"><span class="tab-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 12a3 3 0 1 0-3-3 3 3 0 0 0 3 3zm-7 8v-1a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v1H5zm13-9a2.5 2.5 0 1 0-2.5-2.5A2.5 2.5 0 0 0 18 11zm2 8v-1a5 5 0 0 0-2-4h4v5h-2z"/></svg></span>Communities</button>
+      <button class="tab" data-go="calls" type="button"><span class="tab-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M6.6 10.8c1.5 3 3.6 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1.1-.2 1.2.4 2.5.6 3.8.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.6.6 3.8.1.4 0 .8-.3 1.1L6.6 10.8z"/></svg></span>Calls</button>
+      <button class="tab" data-go="account" type="button"><span class="tab-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4zm0 2c-3.3 0-8 1.7-8 5v1h16v-1c0-3.3-4.7-5-8-5z"/></svg></span>Account</button>
+    </nav>
+  </div>
+
+  <section class="thread-screen" id="threadScreen" hidden>
+    <header class="thread-head">
+      <button class="icon-round" id="backChat" type="button">←</button>
+      <div class="peer-avatar" id="peerAvatar">F</div>
+      <div class="grow">
+        <strong id="peerName">Friend</strong>
+        <small id="peerMeta">Kyro chat</small>
+      </div>
+      <button class="icon-round call-ico" id="threadSearchBtn" type="button" aria-label="Search in chat">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M15.5 14h-.8l-.3-.3A6.5 6.5 0 1 0 14 15.5l.3.3v.8l5 5 1.5-1.5-5-5zm-6 0a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z"/></svg>
+      </button>
+      <button class="icon-round call-ico" id="threadVideo" type="button" aria-label="Video">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M17 10.5V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3.5l4 4v-11l-4 4z"/></svg>
+      </button>
+      <button class="icon-round call-ico" id="threadCall" type="button" aria-label="Call">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M6.6 10.8c1.5 3 3.6 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1.1-.2 1.2.4 2.5.6 3.8.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.6.6 3.8.1.4 0 .8-.3 1.1L6.6 10.8z"/></svg>
+      </button>
+    </header>
+    <div class="tsearch" id="threadSearch" hidden>
+      <input id="threadSearchInput" type="search" placeholder="Search in this chat" autocomplete="off" />
+      <span id="threadSearchCount"></span>
+      <button class="icon-round" id="threadSearchClose" type="button" aria-label="Close search">×</button>
+    </div>
+    <p class="typing-line" id="typingLine" hidden></p>
+    <div class="messages" id="messages"></div>
+    <button class="to-bottom" id="toBottom" type="button" hidden aria-label="Scroll to latest message">&#8595;<em id="toBottomCount" hidden></em></button>
+    <div class="reply-bar" id="replyBar" hidden>
+      <div class="grow"><b id="replyLabel">Replying to</b><span id="replySnip"></span></div>
+      <button class="icon-round" id="replyCancel" type="button" aria-label="Cancel reply">×</button>
+    </div>
+    <div class="blocked-bar" id="blockedBar" hidden>
+      <span>You blocked this contact.</span>
+      <button type="button" id="unblockBtn">Unblock</button>
+    </div>
+    <div class="mention-pop" id="mentionPop" hidden></div>
+    <form class="composer" id="composer">
+      <button class="icon-round" id="attachBtn" type="button" aria-label="Attach photo, video or file">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M16.5 6v11.5a4 4 0 0 1-8 0V5a2.5 2.5 0 0 1 5 0v10.5a1 1 0 0 1-2 0V6H10v9.5a2.5 2.5 0 0 0 5 0V5a4 4 0 0 0-8 0v12.5a5.5 5.5 0 0 0 11 0V6z"/></svg>
+      </button>
+      <input id="imageInput" type="file" accept="image/*,video/*,application/pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv,.zip,.rar" hidden />
+      <input id="messageInput" autocomplete="off" placeholder="Message" />
+      <button class="icon-round" id="recBtn" type="button" aria-label="Voice">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v5a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.9V21h2v-3.1A7 7 0 0 0 19 11h-2z"/></svg>
+      </button>
+      <button class="send-btn" type="submit" aria-label="Send">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M2 21 23 12 2 3v7l15 2L2 14v7z"/></svg>
+      </button>
+    </form>
+  </section>
+
+  <div class="modal" id="plusModal" hidden>
+    <div class="sheet">
+      <h3>Start conversation</h3>
+      <button class="sheet-btn" id="chooseContact" type="button">Add contact</button>
+      <button class="sheet-btn" id="chooseGroup" type="button">Create group</button>
+      <button class="sheet-btn ghost" id="closePlus" type="button">Cancel</button>
+    </div>
+  </div>
+
+  <div class="modal" id="contactModal" hidden>
+    <form class="sheet" id="contactForm">
+      <h3>Add contact</h3>
+      <label>Name</label>
+      <input id="contactName" required />
+      <label>Phone or email</label>
+      <input id="contactFind" required placeholder="email or phone" />
+      <p class="form-msg" id="contactMsg"></p>
+      <button class="btn btn-primary" type="submit" style="width:100%">Check on Kyro Chat</button>
+      <button class="sheet-btn ghost" id="closeContact" type="button">Cancel</button>
+    </form>
+  </div>
+
+  <div class="modal" id="groupModal" hidden>
+    <form class="sheet" id="groupForm">
+      <h3>Create group</h3>
+      <label>Group name</label>
+      <input id="groupName" required />
+      <label>Add members</label>
+      <div id="groupPeople" class="people-pick"></div>
+      <button class="btn btn-primary" type="submit" style="width:100%">Create group</button>
+      <button class="sheet-btn ghost" id="closeGroup" type="button">Cancel</button>
+    </form>
+  </div>
+
+  <div class="modal is-off" id="callModal" hidden>
+    <div class="live-call" id="liveCall">
+      <audio id="remoteAudio" autoplay playsinline></audio>
+      <div class="call-videos">
+        <video id="remoteVideo" autoplay playsinline></video>
+        <video id="localVideo" autoplay muted playsinline></video>
+      </div>
+      <div class="peer-avatar lg" id="callAvatar">C</div>
+      <h3 id="callName">Voice call</h3>
+      <p id="callStatus">Calling…</p>
+      <div class="call-actions">
+        <button class="call-ctl" id="acceptCall" type="button" hidden>Accept</button>
+        <button class="call-ctl ghost" id="rejectCall" type="button" hidden>Decline</button>
+        <button class="call-ctl" id="muteBtn" type="button">Mute</button>
+        <button class="call-ctl" id="camBtn" type="button">Camera</button>
+        <button class="call-ctl" id="speakerBtn" type="button">Speaker</button>
+        <button class="call-ctl end" id="endCall" type="button">Hang up</button>
+      </div>
+      <button class="sheet-x" id="closeCallSheet" type="button" aria-label="Close">×</button>
+    </div>
+  </div>
+
+  <div class="modal is-off" id="storyModal" hidden>
+    <form class="sheet tall" id="storyForm">
+      <button class="sheet-x" id="closeStory" type="button" aria-label="Close">×</button>
+      <h3>New story</h3>
+      <div class="story-types">
+        <button type="button" class="sheet-btn story-type is-on" data-type="text">Text</button>
+        <button type="button" class="sheet-btn story-type" data-type="image">Image</button>
+        <button type="button" class="sheet-btn story-type" data-type="music">Music</button>
+      </div>
+      <div id="storyTextBox">
+        <label>Text</label>
+        <input id="storyText" placeholder="Write something" />
+      </div>
+      <div id="storyImageBox" hidden>
+        <label>Photo</label>
+        <input id="storyImage" type="file" accept="image/*" />
+      </div>
+      <div id="storyMusicBox" hidden>
+        <label>Music</label>
+        <input id="storyMusic" type="file" accept="audio/*,.mp3,.m4a,.wav,.ogg,.aac" />
+        <label>Cover text</label>
+        <input id="storyMusicTitle" placeholder="Song name" />
+      </div>
+      <p class="form-msg" id="storyMsg"></p>
+      <button class="btn btn-primary" type="submit" style="width:100%">Share story</button>
+    </form>
+  </div>
+
+  <div class="status-view is-off" id="statusView" hidden>
+    <button class="sheet-x" id="closeStatus" type="button">×</button>
+    <div class="status-progress" id="statusProgress"></div>
+    <p class="status-name" id="statusName"></p>
+    <p class="status-note" id="statusLeft"></p>
+    <div class="status-body" id="statusBody"></div>
+  </div>
+
+  <div class="modal is-off" id="editProfileModal" hidden>
+    <div class="sheet">
+      <h3>Edit profile</h3>
+      <label for="epUsername">Username</label>
+      <input id="epUsername" type="text" maxlength="20" autocomplete="off" autocapitalize="none" placeholder="e.g. vael.tech" />
+      <label for="epBio">Bio <small id="epBioCount" class="hint">0/120</small></label>
+      <input id="epBio" type="text" maxlength="120" autocomplete="off" placeholder="Tell people about yourself" />
+      <p class="form-msg" id="epMsg"></p>
+      <button class="sheet-btn" id="epSave" type="button">Save changes</button>
+      <button class="sheet-btn ghost" id="epCancel" type="button">Cancel</button>
+    </div>
+  </div>
+
+  <div class="modal is-off" id="peerInfoModal" hidden>
+    <div class="sheet" style="text-align:center">
+      <div class="peer-avatar lg" id="piAvatar" style="margin:0 auto 10px"></div>
+      <h3 id="piName"></h3>
+      <p class="me-user" id="piUsername"></p>
+      <p class="me-bio" id="piBio"></p>
+      <p class="hint" id="piContact"></p>
+      <label for="piDisappear" style="display:block;text-align:left;margin-top:10px">Disappearing messages</label>
+      <select id="piDisappear">
+        <option value="0">Off</option>
+        <option value="86400">24 hours</option>
+        <option value="604800">7 days</option>
+        <option value="7776000">90 days</option>
+      </select>
+      <button class="sheet-btn" id="piMedia" type="button">Media, files and links</button>
+      <button class="sheet-btn" id="piWall" type="button">Chat wallpaper</button>
+      <button class="sheet-btn" id="piBlock" type="button">Block</button>
+      <button class="sheet-btn" id="piReport" type="button">Report</button>
+      <button class="sheet-btn ghost" id="piClose" type="button">Close</button>
+    </div>
+  </div>
+
+  <div class="modal is-off" id="settingsModal" hidden>
+    <div class="sheet tall">
+      <h3>Settings</h3>
+      <div class="set-body">
+        <h4 class="set-h">Appearance</h4>
+        <div class="theme-box">
+          <span>Appearance</span>
+          <div class="seg" id="themeSeg">
+            <button type="button" data-t="system">System</button>
+            <button type="button" data-t="dark">Dark</button>
+            <button type="button" data-t="light">Light</button>
+          </div>
+        </div>
+        <h4 class="set-h">Notifications</h4>
+        <label class="set-row">
+          <span>Message pop-ups<small>Show a banner when a new message arrives</small></span>
+          <span class="switch"><input type="checkbox" id="setPopups" checked /><i></i></span>
+        </label>
+        <h4 class="set-h">Privacy and safety</h4>
+        <label class="set-row">
+          <span>App lock<small>Ask for a PIN when you open Kyro Chat</small></span>
+          <span class="switch"><input type="checkbox" id="setLock" /><i></i></span>
+        </label>
+        <div id="lockOpts" hidden>
+          <label class="set-row">
+            <span>Lock after<small>Time away from the app</small></span>
+            <select id="lockDelay" class="lock-select">
+              <option value="0">Immediately</option>
+              <option value="60">1 minute</option>
+              <option value="300">5 minutes</option>
+            </select>
+          </label>
+          <button class="set-link" id="lockChangeBtn" type="button" style="margin-bottom:8px">Change PIN<em>&rsaquo;</em></button>
+        </div>
+        <button class="set-link" id="blockedBtn" type="button">Blocked contacts<em>&rsaquo;</em></button>
+        <h4 class="set-h">Chats</h4>
+        <button class="set-link" id="wallBtn" type="button" style="margin-bottom:8px">Chat wallpaper<em>&rsaquo;</em></button>
+        <button class="set-link" id="starredBtn" type="button">Starred messages<em>&rsaquo;</em></button>
+        <h4 class="set-h">About</h4>
+        <a class="set-link" href="terms.html" target="_blank" rel="noopener" style="margin-bottom:8px">Terms of Service<em>&rsaquo;</em></a>
+        <a class="set-link" href="privacy.html" target="_blank" rel="noopener" style="margin-bottom:8px">Privacy Policy<em>&rsaquo;</em></a>
+        <p class="hint">Kyro Chat, founded by Vael Tech and Jose Grid.</p>
+      </div>
+      <button class="sheet-btn ghost" id="settingsClose" type="button">Close</button>
+    </div>
+  </div>
+
+  <div class="modal is-off" id="galleryModal" hidden>
+    <div class="sheet tall">
+      <h3>Media, files and links</h3>
+      <div class="seg gal-tabs" id="galTabs">
+        <button type="button" data-g="media" class="on">Media</button>
+        <button type="button" data-g="files">Files</button>
+        <button type="button" data-g="links">Links</button>
+      </div>
+      <div class="gal-body" id="galBody"></div>
+      <button class="sheet-btn ghost" id="galClose" type="button">Close</button>
+    </div>
+  </div>
+
+  <div class="modal is-off" id="wallpaperModal" hidden>
+    <div class="sheet tall">
+      <h3 id="wallTitle">Chat wallpaper</h3>
+      <div class="wall-preview" id="wallPreview">
+        <div class="bubble them"><span>Hey, how is it going?</span></div>
+        <div class="bubble me"><span>All good, love this look</span></div>
+      </div>
+      <div class="wall-grid" id="wallGrid"></div>
+      <input type="file" id="wallFile" accept="image/*" hidden />
+      <button class="sheet-btn" id="wallPhoto" type="button">Choose a photo</button>
+      <button class="sheet-btn" id="wallReset" type="button">Reset</button>
+      <button class="sheet-btn ghost" id="wallClose" type="button">Done</button>
+    </div>
+  </div>
+
+  <div class="modal is-off" id="blockedModal" hidden>
+    <div class="sheet tall">
+      <h3>Blocked contacts</h3>
+      <div id="blockedList" class="star-list"></div>
+      <button class="sheet-btn ghost" id="blockedClose" type="button">Close</button>
+    </div>
+  </div>
+
+  <div class="modal is-off" id="starredModal" hidden>
+    <div class="sheet tall">
+      <h3>Starred messages</h3>
+      <div id="starredList" class="star-list"></div>
+      <button class="sheet-btn ghost" id="starredClose" type="button">Close</button>
+    </div>
+  </div>
+
+  <div class="modal is-off" id="chatOptsModal" hidden>
+    <div class="sheet">
+      <h3 id="chatOptsName">Chat</h3>
+      <button class="sheet-btn" id="optPin" type="button">Pin chat</button>
+      <button class="sheet-btn" id="optMute" type="button">Mute notifications</button>
+      <button class="sheet-btn" id="optArchive" type="button">Archive chat</button>
+      <button class="sheet-btn ghost" id="optClose" type="button">Cancel</button>
+    </div>
+  </div>
+
+  <div class="modal is-off" id="msgActions" hidden>
+    <div class="sheet">
+      <div class="react-row" id="reactRow">
+        <button type="button" data-e="👍">👍</button>
+        <button type="button" data-e="❤️">❤️</button>
+        <button type="button" data-e="😂">😂</button>
+        <button type="button" data-e="😮">😮</button>
+        <button type="button" data-e="😢">😢</button>
+        <button type="button" data-e="🙏">🙏</button>
+      </div>
+      <button class="sheet-btn" id="actReply" type="button">Reply</button>
+      <button class="sheet-btn" id="actEdit" type="button" hidden>Edit</button>
+      <button class="sheet-btn" id="actStar" type="button">Star</button>
+      <button class="sheet-btn" id="actDelete" type="button">Delete</button>
+      <button class="sheet-btn" id="actForward" type="button">Forward</button>
+      <button class="sheet-btn" id="actSave" type="button">Save to phone</button>
+      <button class="sheet-btn ghost" id="closeActions" type="button">Cancel</button>
+    </div>
+  </div>
+
+  <div class="modal is-off" id="forwardModal" hidden>
+    <div class="sheet tall">
+      <button class="sheet-x" id="closeForward" type="button">×</button>
+      <h3>Forward to</h3>
+      <div class="list" id="forwardList"></div>
+    </div>
+  </div>
+
+  <div class="modal is-off" id="groupManage" hidden>
+    <div class="sheet tall">
+      <button class="sheet-x" id="closeGroupManage" type="button">×</button>
+      <h3 id="groupManageTitle">Group</h3>
+      <p class="hint">Creator is admin. Admins can add members and make others admin.</p>
+      <div id="groupMemberBox" class="people-pick"></div>
+      <button class="btn btn-primary" id="saveGroupMembers" type="button" style="width:100%">Save members</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/agora-rtc-sdk-ng@4.20.2/AgoraRTC_N-4.20.2.js"></script>
+  <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
+  <script src="js/kyro.js"></script>
+  <script src="js/lock.js"></script>
+  <script src="js/rich.js"></script>
+  <script src="js/e2e.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/communities.js"></script>
+  <script src="js/profile-sheet.js"></script>
+  <script src="js/extras.js"></script>
+  <script src="js/chat-extras.js"></script>
+  <script src="js/pin-poll.js"></script>
+  <script src="js/more-extras.js"></script>
+  <script src="js/vanish.js"></script>
+  <script src="js/groups-fix.js"></script>
+  <script src="js/new-chat.js"></script>
+  <script src="js/new-chat-pro.js"></script>
+  <script src="js/status-pro.js"></script>
+  <script src="js/status-sync.js"></script>
+  <script src="js/group-pro.js"></script>
+  <script src="js/polish.js"></script>
+  <script src="js/ticks.js"></script>
+  <script src="js/swipe.js"></script>
+  <script src="js/design.js"></script>
+  <script src="js/smooth.js"></script>
+  <script src="js/skeleton.js"></script>
+  <script src="js/double-tap.js"></script>
+  <script src="js/stickers-plus.js"></script>
+  <script src="js/sounds.js"></script>
+  <script src="js/unread-divider.js"></script>
+  <script src="js/zoom.js"></script>
+  <script src="js/msg-tools.js"></script>
+  <script src="js/voice-pro.js"></script>
+  <script src="js/round-video.js"></script>
+  <script src="js/select-mode.js"></script>
+  <script src="js/kyro-plus.js"></script>
+  <script src="js/photo-editor.js"></script>
+  <script src="js/gif-config.js"></script>
+  <script src="js/gif.js"></script>
+  <script src="js/contact-info.js"></script>
+  <script src="js/chat-organize.js"></script>
+  <script src="js/privacy.js"></script>
+  <script src="js/chat-theme.js"></script>
+  <script src="js/smart-replies.js"></script>
+  <script src="js/app-shell.js"></script>
+  <script src="js/msg-search.js"></script>
+  <script src="js/translate.js"></script>
+  <script src="js/sticker-packs.js"></script>
+  <script src="js/finish.js"></script>
+  <script src="js/keyboard.js"></script>
+  <script src="js/legal-config.js"></script>
+  <script src="js/legal-gate.js"></script>
+</body>
+</html>
