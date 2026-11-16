@@ -1,538 +1,781 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />
-  <title>Kyro Chat</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
-  <meta name="theme-color" content="#070712" id="themeColor" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Kyro" />
-  <link rel="apple-touch-icon" href="https://files.manuscdn.com/search-media/310519664080918235/gBoqnpmfqZuKQ8LN73tzbE/3zUMeQzXwtpUL2Mu3HvWuQ.jpg" />
-  <link rel="stylesheet" href="kyro-appshell.css" />
-  <script>
-    (function () {
-      try {
-        var t = localStorage.getItem("kyro.theme") || "dark";
-        var light = t === "light" || (t === "system" && window.matchMedia("(prefers-color-scheme: light)").matches);
-        document.documentElement.setAttribute("data-theme", light ? "light" : "dark");
-      } catch (e) {}
-    })();
-  </script>
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="app.css" />
-  <link rel="stylesheet" href="kyro-extras.css" />
-  <link rel="stylesheet" href="kyro-chat-extras.css" />
-  <link rel="stylesheet" href="kyro-pinpoll.css" />
-  <link rel="stylesheet" href="kyro-more.css" />
-  <link rel="stylesheet" href="kyro-profile.css" />
-  <link rel="stylesheet" href="kyro-vanish.css" />
-  <link rel="stylesheet" href="kyro-groups.css" />
-  <link rel="stylesheet" href="kyro-status.css" />
-  <link rel="stylesheet" href="kyro-group-pro.css" />
-  <link rel="stylesheet" href="kyro-redesign.css" />
-  <link rel="stylesheet" href="kyro-polish.css" />
-  <link rel="stylesheet" href="kyro-ticks-swipe.css" />
-  <link rel="stylesheet" href="kyro-design.css" />
-  <link rel="stylesheet" href="kyro-smooth.css" />
-  <link rel="stylesheet" href="kyro-skeleton.css" />
-  <link rel="stylesheet" href="kyro-doubletap.css" />
-  <link rel="stylesheet" href="kyro-stickers-plus.css" />
-  <link rel="stylesheet" href="kyro-unread.css" />
-  <link rel="stylesheet" href="kyro-zoom.css" />
-  <link rel="stylesheet" href="kyro-msgtools.css" />
-  <link rel="stylesheet" href="kyro-voice.css" />
-  <link rel="stylesheet" href="kyro-communities.css">
-  <link rel="stylesheet" href="kyro-profile-sheet.css">
-  <link rel="stylesheet" href="kyro-newchat.css">
-  <link rel="stylesheet" href="kyro-round.css" />
-  <link rel="stylesheet" href="kyro-select.css" />
-  <link rel="stylesheet" href="kyro-plus.css" />
-  <link rel="stylesheet" href="kyro-editor.css" />
-  <link rel="stylesheet" href="kyro-gif.css" />
-  <link rel="stylesheet" href="kyro-contact.css" />
-  <link rel="stylesheet" href="kyro-search.css" />
-  <link rel="stylesheet" href="kyro-translate.css" />
-  <link rel="stylesheet" href="kyro-sticker-packs.css" />
-  <link rel="stylesheet" href="kyro-finish.css" />
-  <link rel="stylesheet" href="legal.css" />
-  <link rel="stylesheet" href="kyro-organize.css" />
-  <link rel="stylesheet" href="kyro-privacy.css" />
-  <link rel="stylesheet" href="kyro-theme.css" />
-  <link rel="stylesheet" href="kyro-smart.css" />
-  <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="stylesheet" href="kyro-native.css" />
-  <link rel="stylesheet" href="kyro-keyboard.css" />
-</head>
-<body class="app-body is-loading">
-  <div id="kSplash" aria-hidden="true"><img src="https://files.manuscdn.com/search-media/310519664080918235/gBoqnpmfqZuKQ8LN73tzbE/3zUMeQzXwtpUL2Mu3HvWuQ.jpg" alt="" /><b>Kyro Chat</b></div>
-  <div class="kyro-loader" id="kyroLoader">
-    <div class="loader-rings" aria-hidden="true">
-      <span></span><span></span><span></span>
-    </div>
-    <img class="loader-logo" src="https://files.manuscdn.com/search-media/310519664080918235/gBoqnpmfqZuKQ8LN73tzbE/BKEzHJwq9KQAgfiMxz427F.jpg" alt="Kyro Chat" />
-    <h2>Kyro Chat</h2>
-    <p>Connecting your chats…</p>
-  </div>
-  <div class="ambient" aria-hidden="true">
-    <span class="orb orb-1"></span>
-    <span class="orb orb-2"></span>
-    <span class="orb orb-3"></span>
-  </div>
-  <div class="wa-app" id="appRoot">
-    <header class="wa-top" id="mainTop">
-      <div class="brand-block">
-        <img class="mini-logo" src="https://files.manuscdn.com/search-media/310519664080918235/gBoqnpmfqZuKQ8LN73tzbE/BKEzHJwq9KQAgfiMxz427F.jpg" alt="" />
-        <div>
-          <h1 id="topTitle">Kyro</h1>
-          <p class="role-pill" id="rolePill">User</p>
-        </div>
-      </div>
-      <button class="icon-round" id="searchToggle" type="button" aria-label="Search">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M15.5 14h-.8l-.3-.3A6.5 6.5 0 1 0 14 15.5l.3.3v.8l5 5 1.5-1.5-5-5zm-6 0a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z"/></svg>
-      </button>
-    </header>
+if (!Kyro.requireAuthPage()) throw new Error("redirect");
 
-    <div class="wa-search" id="searchBar" hidden>
-      <input id="searchInput" type="search" placeholder="Search contacts, email or phone" />
-    </div>
+const LS = {
+  contacts: "kyro.contacts",
+  groups: "kyro.groups",
+  stories: "kyro.stories",
+  communities: "kyro.communities",
+  calls: "kyro.calls",
+  unread: "kyro.unread"
+};
 
-    <main class="wa-main">
-      <section class="tab-page is-on" data-tab="chats">
-        <div class="empty-box" id="chatsEmpty">
-          <div class="empty-art" aria-hidden="true">&#128172;</div>
-          <p>No chats yet</p>
-          <small>Tap + to message someone</small>
-          <button class="fab-inline" id="emptyPlus" type="button">+</button>
-        </div>
-        <div class="chips" id="chatChips">
-          <button type="button" data-f="all" class="on">All</button>
-          <button type="button" data-f="unread">Unread</button>
-          <button type="button" data-f="fav">Favorites</button>
-          <button type="button" data-f="pinned">Pinned</button>
-          <button type="button" data-f="archived">Archived</button>
-        </div>
-        <div class="list" id="chatList"></div>
-        <button class="fab" id="plusBtn" type="button" aria-label="New">+</button>
-      </section>
+let me = Kyro.getUser() || {};
+let meName = me.fullName || [me.firstName, me.lastName].filter(Boolean).join(" ") || "You";
+let meId = String(me._id || me.id || me.userId || "");
+let isAdmin = me.role === "admin";
+let chats = [];
+let currentPeer = null;
+const seenMessages = new Set();
 
-      <section class="tab-page" data-tab="story">
-        <p class="hint status-note">Stories disappear after 24 hours</p>
-        <div class="status-row" id="storyList"></div>
-      </section>
+function unreadMap() {
+  const raw = load(LS.unread, {});
+  return raw && typeof raw === "object" ? raw : {};
+}
+function unreadCount(id) {
+  return Number(unreadMap()[String(id)] || 0);
+}
+function setUnread(id, count) {
+  const map = unreadMap();
+  if (count <= 0) delete map[String(id)];
+  else map[String(id)] = count;
+  save(LS.unread, map);
+  paintChatBadge();
+}
+function clearUnread(id) {
+  setUnread(id, 0);
+}
+function addUnread(id) {
+  setUnread(id, unreadCount(id) + 1);
+}
+function totalUnread() {
+  return Object.values(unreadMap()).reduce((sum, n) => sum + Number(n || 0), 0);
+}
+function paintChatBadge() {
+  const tab = document.querySelector('.tab[data-go="chats"]');
+  if (!tab) return;
+  let badge = tab.querySelector(".nav-badge");
+  const total = totalUnread();
+  if (!badge) {
+    badge = document.createElement("i");
+    badge.className = "nav-badge";
+    tab.appendChild(badge);
+  }
+  badge.textContent = total > 99 ? "99+" : String(total);
+  badge.hidden = total <= 0;
+}
 
-      <section class="tab-page" data-tab="communities">
-        <button class="story-add" id="addCommunityBtn" type="button">+ New community</button>
-        <div class="list" id="communityList"></div>
-      </section>
+function load(key, fallback) {
+  try { return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback)); }
+  catch { return fallback; }
+}
+function save(key, value) { localStorage.setItem(key, JSON.stringify(value)); }
 
-      <section class="tab-page" data-tab="calls">
-        <div class="empty-box">
-          <p>No calls yet. Open a contact and tap the call icon.</p>
-        </div>
-        <div class="list" id="callList"></div>
-      </section>
+function asArray(data) {
+  if (Array.isArray(data)) return data;
+  if (Array.isArray(data.chats)) return data.chats;
+  if (Array.isArray(data.users)) return data.users;
+  if (Array.isArray(data.messages)) return data.messages;
+  if (Array.isArray(data.data)) return data.data;
+  if (data.user) return [data.user];
+  return [];
+}
 
-      <section class="tab-page" data-tab="account">
-        <div class="account-card">
-          <div class="me-avatar lg" id="meAvatar">K</div>
-          <h2 id="meName">You</h2>
-          <p class="me-user" id="meUsername"></p>
-          <p class="me-bio" id="meBio"></p>
-          <button class="btn btn-ghost" id="editProfileBtn" type="button" style="margin-top:12px">Edit profile</button>
-          <p id="meEmail">signed in</p>
-          <p id="meRoleLine"></p>
-        </div>
-        <div class="admin-box" id="adminBox" hidden>
-          <h3>Admin tools</h3>
-          <p class="hint">Only admins see this.</p>
-          <button class="btn btn-ghost" id="loadUsersBtn" type="button">Load all users</button>
-          <div class="list" id="adminUsers"></div>
-        </div>
-        <button class="btn btn-ghost" id="settingsBtn" type="button" style="width:100%;margin-top:16px">Settings</button>
-        <button class="btn btn-ghost" id="logoutBtn" type="button" style="width:100%;margin-top:16px">Log out</button>
-      </section>
-    </main>
+function setAvatar(el, src, name) {
+  if (src) {
+    el.style.backgroundImage = "url(" + src + ")";
+    el.textContent = "";
+  } else {
+    el.style.backgroundImage = "";
+    el.textContent = Kyro.initials(name || "K");
+  }
+}
 
-    <nav class="wa-footer">
-      <button class="tab is-on" data-go="chats" type="button"><span class="tab-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M4 4h16v12H7l-3 3V4zm4 5h8v2H8V9zm0-3h8v2H8V6z"/></svg></span>Chats</button>
-      <button class="tab" data-go="story" type="button"><span class="tab-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4"/></svg></span>Story</button>
-      <button class="tab" data-go="communities" type="button"><span class="tab-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 12a3 3 0 1 0-3-3 3 3 0 0 0 3 3zm-7 8v-1a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v1H5zm13-9a2.5 2.5 0 1 0-2.5-2.5A2.5 2.5 0 0 0 18 11zm2 8v-1a5 5 0 0 0-2-4h4v5h-2z"/></svg></span>Communities</button>
-      <button class="tab" data-go="calls" type="button"><span class="tab-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M6.6 10.8c1.5 3 3.6 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1.1-.2 1.2.4 2.5.6 3.8.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.6.6 3.8.1.4 0 .8-.3 1.1L6.6 10.8z"/></svg></span>Calls</button>
-      <button class="tab" data-go="account" type="button"><span class="tab-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4zm0 2c-3.3 0-8 1.7-8 5v1h16v-1c0-3.3-4.7-5-8-5z"/></svg></span>Account</button>
-    </nav>
-  </div>
+function paintMe() {
+  document.getElementById("meName").textContent = meName;
+  document.getElementById("meEmail").textContent = me.email || "Signed in";
+  document.getElementById("rolePill").textContent = isAdmin ? "Admin" : "User";
+  document.getElementById("meRoleLine").textContent = isAdmin ? "You have admin tools below." : "Standard account";
+  setAvatar(document.getElementById("meAvatar"), me.avatar || me.profilePicture, meName);
+  document.getElementById("adminBox").hidden = !isAdmin;
+}
 
-  <section class="thread-screen" id="threadScreen" hidden>
-    <header class="thread-head">
-      <button class="icon-round" id="backChat" type="button">←</button>
-      <div class="peer-avatar" id="peerAvatar">F</div>
-      <div class="grow">
-        <strong id="peerName">Friend</strong>
-        <small id="peerMeta">Kyro chat</small>
-      </div>
-      <button class="icon-round call-ico" id="threadSearchBtn" type="button" aria-label="Search in chat">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M15.5 14h-.8l-.3-.3A6.5 6.5 0 1 0 14 15.5l.3.3v.8l5 5 1.5-1.5-5-5zm-6 0a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z"/></svg>
-      </button>
-      <button class="icon-round call-ico" id="threadVideo" type="button" aria-label="Video">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M17 10.5V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3.5l4 4v-11l-4 4z"/></svg>
-      </button>
-      <button class="icon-round call-ico" id="threadCall" type="button" aria-label="Call">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M6.6 10.8c1.5 3 3.6 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1.1-.2 1.2.4 2.5.6 3.8.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.6.6 3.8.1.4 0 .8-.3 1.1L6.6 10.8z"/></svg>
-      </button>
-    </header>
-    <div class="tsearch" id="threadSearch" hidden>
-      <input id="threadSearchInput" type="search" placeholder="Search in this chat" autocomplete="off" />
-      <span id="threadSearchCount"></span>
-      <button class="icon-round" id="threadSearchClose" type="button" aria-label="Close search">×</button>
-    </div>
-    <p class="typing-line" id="typingLine" hidden></p>
-    <div class="messages" id="messages"></div>
-    <button class="to-bottom" id="toBottom" type="button" hidden aria-label="Scroll to latest message">&#8595;<em id="toBottomCount" hidden></em></button>
-    <div class="reply-bar" id="replyBar" hidden>
-      <div class="grow"><b id="replyLabel">Replying to</b><span id="replySnip"></span></div>
-      <button class="icon-round" id="replyCancel" type="button" aria-label="Cancel reply">×</button>
-    </div>
-    <div class="blocked-bar" id="blockedBar" hidden>
-      <span>You blocked this contact.</span>
-      <button type="button" id="unblockBtn">Unblock</button>
-    </div>
-    <div class="mention-pop" id="mentionPop" hidden></div>
-    <form class="composer" id="composer">
-      <button class="icon-round" id="attachBtn" type="button" aria-label="Attach photo, video or file">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M16.5 6v11.5a4 4 0 0 1-8 0V5a2.5 2.5 0 0 1 5 0v10.5a1 1 0 0 1-2 0V6H10v9.5a2.5 2.5 0 0 0 5 0V5a4 4 0 0 0-8 0v12.5a5.5 5.5 0 0 0 11 0V6z"/></svg>
-      </button>
-      <input id="imageInput" type="file" accept="image/*,video/*,application/pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv,.zip,.rar" hidden />
-      <input id="messageInput" autocomplete="off" placeholder="Message" />
-      <button class="icon-round" id="recBtn" type="button" aria-label="Voice">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v5a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.9V21h2v-3.1A7 7 0 0 0 19 11h-2z"/></svg>
-      </button>
-      <button class="send-btn" type="submit" aria-label="Send">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M2 21 23 12 2 3v7l15 2L2 14v7z"/></svg>
-      </button>
-    </form>
-  </section>
+function showTab(name) {
+  document.querySelectorAll(".tab-page").forEach((p) => p.classList.toggle("is-on", p.dataset.tab === name));
+  document.querySelectorAll(".tab").forEach((t) => t.classList.toggle("is-on", t.dataset.go === name));
+  const titles = { chats: "Kyro", story: "Story", communities: "Communities", calls: "Calls", account: "Account" };
+  document.getElementById("topTitle").textContent = titles[name] || "Kyro";
+}
 
-  <div class="modal" id="plusModal" hidden>
-    <div class="sheet">
-      <h3>Start conversation</h3>
-      <button class="sheet-btn" id="chooseContact" type="button">Add contact</button>
-      <button class="sheet-btn" id="chooseGroup" type="button">Create group</button>
-      <button class="sheet-btn ghost" id="closePlus" type="button">Cancel</button>
-    </div>
-  </div>
+document.querySelectorAll(".tab").forEach((btn) => {
+  btn.addEventListener("click", () => showTab(btn.dataset.go));
+});
 
-  <div class="modal" id="contactModal" hidden>
-    <form class="sheet" id="contactForm">
-      <h3>Add contact</h3>
-      <label>Name</label>
-      <input id="contactName" required />
-      <label>Phone or email</label>
-      <input id="contactFind" required placeholder="email or phone" />
-      <p class="form-msg" id="contactMsg"></p>
-      <button class="btn btn-primary" type="submit" style="width:100%">Check on Kyro Chat</button>
-      <button class="sheet-btn ghost" id="closeContact" type="button">Cancel</button>
-    </form>
-  </div>
+document.getElementById("searchToggle").addEventListener("click", () => {
+  const bar = document.getElementById("searchBar");
+  bar.hidden = !bar.hidden;
+  if (!bar.hidden) document.getElementById("searchInput").focus();
+});
 
-  <div class="modal" id="groupModal" hidden>
-    <form class="sheet" id="groupForm">
-      <h3>Create group</h3>
-      <label>Group name</label>
-      <input id="groupName" required />
-      <label>Add members</label>
-      <div id="groupPeople" class="people-pick"></div>
-      <button class="btn btn-primary" type="submit" style="width:100%">Create group</button>
-      <button class="sheet-btn ghost" id="closeGroup" type="button">Cancel</button>
-    </form>
-  </div>
+document.getElementById("logoutBtn").addEventListener("click", () => {
+  Kyro.clearSession();
+  location.replace("login.html");
+});
 
-  <div class="modal is-off" id="callModal" hidden>
-    <div class="live-call" id="liveCall">
-      <audio id="remoteAudio" autoplay playsinline></audio>
-      <div class="call-videos">
-        <video id="remoteVideo" autoplay playsinline></video>
-        <video id="localVideo" autoplay muted playsinline></video>
-      </div>
-      <div class="peer-avatar lg" id="callAvatar">C</div>
-      <h3 id="callName">Voice call</h3>
-      <p id="callStatus">Calling…</p>
-      <div class="call-actions">
-        <button class="call-ctl" id="acceptCall" type="button" hidden>Accept</button>
-        <button class="call-ctl ghost" id="rejectCall" type="button" hidden>Decline</button>
-        <button class="call-ctl" id="muteBtn" type="button">Mute</button>
-        <button class="call-ctl" id="camBtn" type="button">Camera</button>
-        <button class="call-ctl" id="speakerBtn" type="button">Speaker</button>
-        <button class="call-ctl end" id="endCall" type="button">Hang up</button>
-      </div>
-      <button class="sheet-x" id="closeCallSheet" type="button" aria-label="Close">×</button>
-    </div>
-  </div>
+function peerFrom(item) {
+  const other = item.user || item.otherUser || item.participant || item;
+  return {
+    id: String(other._id || other.id || item.otherUserId || item.id || ""),
+    name: other.fullName || other.name || [other.firstName, other.lastName].filter(Boolean).join(" ") || other.email || "Chat",
+    email: other.email || "",
+    phone: other.phone || other.phoneNumber || "",
+    avatar: other.avatar || other.profilePicture || "",
+    preview: (item.lastMessage && (item.lastMessage.text || item.lastMessage.content)) || item.preview || "Tap to chat",
+    unread: unreadCount(other._id || other.id || item.otherUserId || item.id)
+  };
+}
 
-  <div class="modal is-off" id="storyModal" hidden>
-    <form class="sheet tall" id="storyForm">
-      <button class="sheet-x" id="closeStory" type="button" aria-label="Close">×</button>
-      <h3>New story</h3>
-      <div class="story-types">
-        <button type="button" class="sheet-btn story-type is-on" data-type="text">Text</button>
-        <button type="button" class="sheet-btn story-type" data-type="image">Image</button>
-        <button type="button" class="sheet-btn story-type" data-type="music">Music</button>
-      </div>
-      <div id="storyTextBox">
-        <label>Text</label>
-        <input id="storyText" placeholder="Write something" />
-      </div>
-      <div id="storyImageBox" hidden>
-        <label>Photo</label>
-        <input id="storyImage" type="file" accept="image/*" />
-      </div>
-      <div id="storyMusicBox" hidden>
-        <label>Music</label>
-        <input id="storyMusic" type="file" accept="audio/*,.mp3,.m4a,.wav,.ogg,.aac" />
-        <label>Cover text</label>
-        <input id="storyMusicTitle" placeholder="Song name" />
-      </div>
-      <p class="form-msg" id="storyMsg"></p>
-      <button class="btn btn-primary" type="submit" style="width:100%">Share story</button>
-    </form>
-  </div>
+function contactRow(peer, extra) {
+  const row = document.createElement("div");
+  row.className = "row";
+  row.innerHTML =
+    '<div class="row-avatar"></div><div class="grow"><b></b><span></span></div><div class="row-actions"></div>';
+  setAvatar(row.querySelector(".row-avatar"), peer.avatar, peer.name);
+  row.querySelector("b").textContent = peer.name;
+  row.querySelector("span").textContent = extra || peer.preview || peer.email || peer.phone || "";
+  const count = unreadCount(peer.id);
+  if (count > 0) {
+    row.classList.add("has-unread");
+    const badge = document.createElement("em");
+    badge.className = "unread-badge";
+    badge.textContent = count > 99 ? "99+" : String(count);
+    row.querySelector(".grow").appendChild(badge);
+  }
+  const actions = row.querySelector(".row-actions");
+  const msg = document.createElement("button");
+  msg.className = "mini";
+  msg.type = "button";
+  msg.textContent = "✉";
+  msg.addEventListener("click", (e) => { e.stopPropagation(); openThread(peer); });
+  const call = document.createElement("button");
+  call.className = "mini";
+  call.type = "button";
+  call.textContent = "☎";
+  call.addEventListener("click", (e) => { e.stopPropagation(); startCall(peer); });
+  actions.append(msg, call);
+  row.addEventListener("click", () => openThread(peer));
+  return row;
+}
 
-  <div class="status-view is-off" id="statusView" hidden>
-    <button class="sheet-x" id="closeStatus" type="button">×</button>
-    <div class="status-progress" id="statusProgress"></div>
-    <p class="status-name" id="statusName"></p>
-    <p class="status-note" id="statusLeft"></p>
-    <div class="status-body" id="statusBody"></div>
-  </div>
+function renderChats(items) {
+  const box = document.getElementById("chatList");
+  const empty = document.getElementById("chatsEmpty");
+  box.innerHTML = "";
+  const groups = load(LS.groups, []);
+  if (!items.length && !groups.length) {
+    empty.hidden = false;
+    return;
+  }
+  empty.hidden = true;
+  groups.forEach((g) => {
+    const row = document.createElement("button");
+    row.className = "row";
+    row.type = "button";
+    row.innerHTML = '<div class="row-avatar">G</div><div><b></b><span>Group</span></div>';
+    row.querySelector("b").textContent = g.name;
+    row.addEventListener("click", () => openThread({ id: "group:" + g.id, name: g.name, preview: "Group chat" }));
+    box.appendChild(row);
+  });
+  const seen = new Set(items.map((item) => String(peerFrom(item).id)));
+  items.forEach((item) => box.appendChild(contactRow(peerFrom(item))));
+  load(LS.contacts, []).forEach((c) => {
+    if (c.id && !seen.has(String(c.id))) box.appendChild(contactRow(c));
+  });
+}
 
-  <div class="modal is-off" id="editProfileModal" hidden>
-    <div class="sheet">
-      <h3>Edit profile</h3>
-      <label for="epUsername">Username</label>
-      <input id="epUsername" type="text" maxlength="20" autocomplete="off" autocapitalize="none" placeholder="e.g. vael.tech" />
-      <label for="epBio">Bio <small id="epBioCount" class="hint">0/120</small></label>
-      <input id="epBio" type="text" maxlength="120" autocomplete="off" placeholder="Tell people about yourself" />
-      <p class="form-msg" id="epMsg"></p>
-      <button class="sheet-btn" id="epSave" type="button">Save changes</button>
-      <button class="sheet-btn ghost" id="epCancel" type="button">Cancel</button>
-    </div>
-  </div>
+async function loadChats() {
+  const data = await Kyro.api.chats();
+  chats = data._ok ? asArray(data) : [];
+  renderChats(chats);
+}
 
-  <div class="modal is-off" id="peerInfoModal" hidden>
-    <div class="sheet" style="text-align:center">
-      <div class="peer-avatar lg" id="piAvatar" style="margin:0 auto 10px"></div>
-      <h3 id="piName"></h3>
-      <p class="me-user" id="piUsername"></p>
-      <p class="me-bio" id="piBio"></p>
-      <p class="hint" id="piContact"></p>
-      <label for="piDisappear" style="display:block;text-align:left;margin-top:10px">Disappearing messages</label>
-      <select id="piDisappear">
-        <option value="0">Off</option>
-        <option value="86400">24 hours</option>
-        <option value="604800">7 days</option>
-        <option value="7776000">90 days</option>
-      </select>
-      <button class="sheet-btn" id="piMedia" type="button">Media, files and links</button>
-      <button class="sheet-btn" id="piWall" type="button">Chat wallpaper</button>
-      <button class="sheet-btn" id="piBlock" type="button">Block</button>
-      <button class="sheet-btn" id="piReport" type="button">Report</button>
-      <button class="sheet-btn ghost" id="piClose" type="button">Close</button>
-    </div>
-  </div>
+function openThread(peer) {
+  currentPeer = peer;
+  clearUnread(peer.id);
+  document.getElementById("threadScreen").hidden = false;
+  document.getElementById("peerName").textContent = peer.name;
+  document.getElementById("peerMeta").textContent = peer.email || peer.phone || "Kyro chat";
+  setAvatar(document.getElementById("peerAvatar"), peer.avatar, peer.name);
+  loadMessages();
+}
 
-  <div class="modal is-off" id="settingsModal" hidden>
-    <div class="sheet tall">
-      <h3>Settings</h3>
-      <div class="set-body">
-        <h4 class="set-h">Appearance</h4>
-        <div class="theme-box">
-          <span>Appearance</span>
-          <div class="seg" id="themeSeg">
-            <button type="button" data-t="system">System</button>
-            <button type="button" data-t="dark">Dark</button>
-            <button type="button" data-t="light">Light</button>
-          </div>
-        </div>
-        <h4 class="set-h">Notifications</h4>
-        <label class="set-row">
-          <span>Message pop-ups<small>Show a banner when a new message arrives</small></span>
-          <span class="switch"><input type="checkbox" id="setPopups" checked /><i></i></span>
-        </label>
-        <h4 class="set-h">Privacy and safety</h4>
-        <label class="set-row">
-          <span>App lock<small>Ask for a PIN when you open Kyro Chat</small></span>
-          <span class="switch"><input type="checkbox" id="setLock" /><i></i></span>
-        </label>
-        <div id="lockOpts" hidden>
-          <label class="set-row">
-            <span>Lock after<small>Time away from the app</small></span>
-            <select id="lockDelay" class="lock-select">
-              <option value="0">Immediately</option>
-              <option value="60">1 minute</option>
-              <option value="300">5 minutes</option>
-            </select>
-          </label>
-          <button class="set-link" id="lockChangeBtn" type="button" style="margin-bottom:8px">Change PIN<em>&rsaquo;</em></button>
-        </div>
-        <button class="set-link" id="blockedBtn" type="button">Blocked contacts<em>&rsaquo;</em></button>
-        <h4 class="set-h">Chats</h4>
-        <button class="set-link" id="wallBtn" type="button" style="margin-bottom:8px">Chat wallpaper<em>&rsaquo;</em></button>
-        <button class="set-link" id="starredBtn" type="button">Starred messages<em>&rsaquo;</em></button>
-        <h4 class="set-h">About</h4>
-        <a class="set-link" href="terms.html" target="_blank" rel="noopener" style="margin-bottom:8px">Terms of Service<em>&rsaquo;</em></a>
-        <a class="set-link" href="privacy.html" target="_blank" rel="noopener" style="margin-bottom:8px">Privacy Policy<em>&rsaquo;</em></a>
-        <p class="hint">Kyro Chat, founded by Vael Tech and Jose Grid.</p>
-      </div>
-      <button class="sheet-btn ghost" id="settingsClose" type="button">Close</button>
-    </div>
-  </div>
+document.getElementById("backChat").addEventListener("click", () => {
+  document.getElementById("threadScreen").hidden = true;
+  currentPeer = null;
+  loadChats();
+});
 
-  <div class="modal is-off" id="galleryModal" hidden>
-    <div class="sheet tall">
-      <h3>Media, files and links</h3>
-      <div class="seg gal-tabs" id="galTabs">
-        <button type="button" data-g="media" class="on">Media</button>
-        <button type="button" data-g="files">Files</button>
-        <button type="button" data-g="links">Links</button>
-      </div>
-      <div class="gal-body" id="galBody"></div>
-      <button class="sheet-btn ghost" id="galClose" type="button">Close</button>
-    </div>
-  </div>
+async function loadMessages() {
+  const el = document.getElementById("messages");
+  el.innerHTML = "";
+  if (!currentPeer || String(currentPeer.id).startsWith("group:")) {
+    el.innerHTML = '<p class="hint">Group messages stay on this device for now.</p>';
+    return;
+  }
+  const data = await Kyro.api.messages(currentPeer.id);
+  const list = asArray(data);
+  if (!data._ok) {
+    el.innerHTML = '<p class="hint">' + (data.message || "Could not load chats.") + "</p>";
+    return;
+  }
+  if (!list.length) {
+    el.innerHTML = '<p class="hint">No messages yet. Say hello.</p>';
+    return;
+  }
+  list.forEach((m) => {
+    const text = m.text || m.content || m.message || "";
+    const from = String(m.senderId || m.from || "");
+    const mine = from === meId || m.mine === true;
+    const mid = String(m._id || "");
+    if (mid) seenMessages.add(mid);
+    const bubble = document.createElement("div");
+    bubble.className = "bubble " + (mine ? "me" : "them");
+    bubble.textContent = text;
+    el.appendChild(bubble);
+  });
+  el.scrollTop = el.scrollHeight;
+}
 
-  <div class="modal is-off" id="wallpaperModal" hidden>
-    <div class="sheet tall">
-      <h3 id="wallTitle">Chat wallpaper</h3>
-      <div class="wall-preview" id="wallPreview">
-        <div class="bubble them"><span>Hey, how is it going?</span></div>
-        <div class="bubble me"><span>All good, love this look</span></div>
-      </div>
-      <div class="wall-grid" id="wallGrid"></div>
-      <input type="file" id="wallFile" accept="image/*" hidden />
-      <button class="sheet-btn" id="wallPhoto" type="button">Choose a photo</button>
-      <button class="sheet-btn" id="wallReset" type="button">Reset</button>
-      <button class="sheet-btn ghost" id="wallClose" type="button">Done</button>
-    </div>
-  </div>
+document.getElementById("composer").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const input = document.getElementById("messageInput");
+  const text = input.value.trim();
+  if (!text || !currentPeer) return;
+  input.value = "";
+  const box = document.getElementById("messages");
+  if (box.querySelector(".hint")) box.innerHTML = "";
+  const bubble = document.createElement("div");
+  bubble.className = "bubble me";
+  bubble.textContent = text;
+  box.appendChild(bubble);
+  box.scrollTop = box.scrollHeight;
+  if (String(currentPeer.id).startsWith("group:")) return;
+  if (window.kyroSocket && window.kyroSocket.connected) {
+    window.kyroSocket.emit("send-message", { receiverId: currentPeer.id, text });
+  } else {
+    const data = await Kyro.api.sendMessage(currentPeer.id, text);
+    if (!data._ok) bubble.style.opacity = "0.55";
+  }
+});
 
-  <div class="modal is-off" id="blockedModal" hidden>
-    <div class="sheet tall">
-      <h3>Blocked contacts</h3>
-      <div id="blockedList" class="star-list"></div>
-      <button class="sheet-btn ghost" id="blockedClose" type="button">Close</button>
-    </div>
-  </div>
+function openModal(id) {
+  const el = document.getElementById(id);
+  el.hidden = false;
+  el.classList.remove("is-off");
+}
+function closeModal(id) {
+  const el = document.getElementById(id);
+  el.hidden = true;
+  el.classList.add("is-off");
+}
 
-  <div class="modal is-off" id="starredModal" hidden>
-    <div class="sheet tall">
-      <h3>Starred messages</h3>
-      <div id="starredList" class="star-list"></div>
-      <button class="sheet-btn ghost" id="starredClose" type="button">Close</button>
-    </div>
-  </div>
+document.getElementById("plusBtn").addEventListener("click", () => openModal("plusModal"));
+document.getElementById("emptyPlus").addEventListener("click", () => openModal("plusModal"));
+document.getElementById("closePlus").addEventListener("click", () => closeModal("plusModal"));
+document.getElementById("chooseContact").addEventListener("click", () => {
+  closeModal("plusModal");
+  openModal("contactModal");
+});
+document.getElementById("chooseGroup").addEventListener("click", () => {
+  closeModal("plusModal");
+  openModal("groupModal");
+});
+document.getElementById("closeContact").addEventListener("click", () => closeModal("contactModal"));
+document.getElementById("closeGroup").addEventListener("click", () => closeModal("groupModal"));
 
-  <div class="modal is-off" id="chatOptsModal" hidden>
-    <div class="sheet">
-      <h3 id="chatOptsName">Chat</h3>
-      <button class="sheet-btn" id="optPin" type="button">Pin chat</button>
-      <button class="sheet-btn" id="optMute" type="button">Mute notifications</button>
-      <button class="sheet-btn" id="optArchive" type="button">Archive chat</button>
-      <button class="sheet-btn ghost" id="optClose" type="button">Cancel</button>
-    </div>
-  </div>
+document.getElementById("contactForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const name = document.getElementById("contactName").value.trim();
+  const q = document.getElementById("contactFind").value.trim();
+  const msg = document.getElementById("contactMsg");
+  msg.className = "form-msg";
+  msg.textContent = "Checking Kyro Chat…";
+  const data = await Kyro.api.lookup(q);
+  const found = asArray(data);
+  if (!data._ok) {
+    msg.className = "form-msg bad";
+    msg.textContent = data.message || "Could not check right now.";
+    return;
+  }
+  if (!found.length) {
+    msg.className = "form-msg bad";
+    msg.textContent = "This number / email is unavailable on Kyro Chat.";
+    return;
+  }
+  const user = found[0];
+  const peer = peerFrom({ user, preview: "New contact" });
+  peer.name = name || peer.name;
+  const contacts = load(LS.contacts, []);
+  contacts.unshift(peer);
+  save(LS.contacts, contacts);
+  msg.className = "form-msg";
+  msg.textContent = "Successful. This contact is on Kyro Chat.";
+  renderSearchResults([peer]);
+  setTimeout(() => {
+    closeModal("contactModal");
+    openThread(peer);
+  }, 700);
+});
 
-  <div class="modal is-off" id="msgActions" hidden>
-    <div class="sheet">
-      <div class="react-row" id="reactRow">
-        <button type="button" data-e="👍">👍</button>
-        <button type="button" data-e="❤️">❤️</button>
-        <button type="button" data-e="😂">😂</button>
-        <button type="button" data-e="😮">😮</button>
-        <button type="button" data-e="😢">😢</button>
-        <button type="button" data-e="🙏">🙏</button>
-      </div>
-      <button class="sheet-btn" id="actReply" type="button">Reply</button>
-      <button class="sheet-btn" id="actEdit" type="button" hidden>Edit</button>
-      <button class="sheet-btn" id="actStar" type="button">Star</button>
-      <button class="sheet-btn" id="actDelete" type="button">Delete</button>
-      <button class="sheet-btn" id="actForward" type="button">Forward</button>
-      <button class="sheet-btn" id="actSave" type="button">Save to phone</button>
-      <button class="sheet-btn ghost" id="closeActions" type="button">Cancel</button>
-    </div>
-  </div>
+document.getElementById("groupForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const name = document.getElementById("groupName").value.trim();
+  if (!name) return;
+  const groups = load(LS.groups, []);
+  groups.unshift({ id: Date.now(), name });
+  save(LS.groups, groups);
+  closeModal("groupModal");
+  renderChats(chats);
+});
 
-  <div class="modal is-off" id="forwardModal" hidden>
-    <div class="sheet tall">
-      <button class="sheet-x" id="closeForward" type="button">×</button>
-      <h3>Forward to</h3>
-      <div class="list" id="forwardList"></div>
-    </div>
-  </div>
+function renderSearchResults(peers) {
+  showTab("chats");
+  const box = document.getElementById("chatList");
+  const empty = document.getElementById("chatsEmpty");
+  empty.hidden = true;
+  box.innerHTML = "";
+  peers.forEach((p) => box.appendChild(contactRow(p, "On Kyro Chat")));
+}
 
-  <div class="modal is-off" id="groupManage" hidden>
-    <div class="sheet tall">
-      <button class="sheet-x" id="closeGroupManage" type="button">×</button>
-      <h3 id="groupManageTitle">Group</h3>
-      <p class="hint">Creator is admin. Admins can add members and make others admin.</p>
-      <div id="groupMemberBox" class="people-pick"></div>
-      <button class="btn btn-primary" id="saveGroupMembers" type="button" style="width:100%">Save members</button>
-    </div>
-  </div>
+document.getElementById("searchInput").addEventListener("keydown", async (e) => {
+  if (e.key !== "Enter") return;
+  const q = e.target.value.trim();
+  if (!q) { loadChats(); return; }
+  const data = await Kyro.api.lookup(q);
+  const found = asArray(data).map((u) => peerFrom({ user: u }));
+  if (!found.length) {
+    document.getElementById("chatsEmpty").hidden = false;
+    document.getElementById("chatsEmpty").querySelector("p").textContent = "This contact is unavailable on Kyro Chat.";
+    document.getElementById("chatList").innerHTML = "";
+    return;
+  }
+  renderSearchResults(found);
+});
 
-  <script src="https://cdn.jsdelivr.net/npm/agora-rtc-sdk-ng@4.20.2/AgoraRTC_N-4.20.2.js"></script>
-  <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
-  <script src="js/kyro.js"></script>
-  <script src="js/lock.js"></script>
-  <script src="js/rich.js"></script>
-  <script src="js/e2e.js"></script>
-  <script src="js/app.js"></script>
-  <script src="js/communities.js"></script>
-  <script src="js/profile-sheet.js"></script>
-  <script src="js/extras.js"></script>
-  <script src="js/chat-extras.js"></script>
-  <script src="js/pin-poll.js"></script>
-  <script src="js/more-extras.js"></script>
-  <script src="js/vanish.js"></script>
-  <script src="js/groups-fix.js"></script>
-  <script src="js/new-chat.js"></script>
-  <script src="js/new-chat-pro.js"></script>
-  <script src="js/status-pro.js"></script>
-  <script src="js/status-sync.js"></script>
-  <script src="js/group-pro.js"></script>
-  <script src="js/polish.js"></script>
-  <script src="js/ticks.js"></script>
-  <script src="js/swipe.js"></script>
-  <script src="js/design.js"></script>
-  <script src="js/smooth.js"></script>
-  <script src="js/skeleton.js"></script>
-  <script src="js/double-tap.js"></script>
-  <script src="js/stickers-plus.js"></script>
-  <script src="js/sounds.js"></script>
-  <script src="js/unread-divider.js"></script>
-  <script src="js/zoom.js"></script>
-  <script src="js/msg-tools.js"></script>
-  <script src="js/voice-pro.js"></script>
-  <script src="js/round-video.js"></script>
-  <script src="js/select-mode.js"></script>
-  <script src="js/kyro-plus.js"></script>
-  <script src="js/photo-editor.js"></script>
-  <script src="js/gif-config.js"></script>
-  <script src="js/gif.js"></script>
-  <script src="js/contact-info.js"></script>
-  <script src="js/chat-organize.js"></script>
-  <script src="js/privacy.js"></script>
-  <script src="js/chat-theme.js"></script>
-  <script src="js/smart-replies.js"></script>
-  <script src="js/app-shell.js"></script>
-  <script src="js/msg-search.js"></script>
-  <script src="js/translate.js"></script>
-  <script src="js/sticker-packs.js"></script>
-  <script src="js/finish.js"></script>
-  <script src="js/keyboard.js"></script>
-  <script src="js/legal-config.js"></script>
-  <script src="js/legal-gate.js"></script>
-</body>
-</html>
+const ICE_SERVERS = {
+  iceServers: [
+    { urls: "stun:stun.l.google.com:19302" },
+    { urls: "stun:stun1.l.google.com:19302" }
+  ]
+};
+let callPeer = null;
+let callRole = "";
+let peerConnection = null;
+let localStream = null;
+let incomingOffer = null;
+let pendingIce = [];
+
+function logCall(name, note) {
+  const calls = load(LS.calls, []);
+  calls.unshift({ name, at: new Date().toISOString(), note });
+  save(LS.calls, calls);
+  renderCalls();
+}
+
+function setCallUi({ name, avatar, status, incoming }) {
+  document.getElementById("callName").textContent = name || "Voice call";
+  document.getElementById("callStatus").textContent = status || "";
+  setAvatar(document.getElementById("callAvatar"), avatar || "", name || "C");
+  document.getElementById("acceptCall").hidden = !incoming;
+  document.getElementById("rejectCall").hidden = !incoming;
+  document.getElementById("endCall").hidden = Boolean(incoming);
+  openModal("callModal");
+}
+
+async function getMic() {
+  localStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+  return localStream;
+}
+
+function attachRemoteAudio(stream) {
+  const audio = document.getElementById("remoteAudio");
+  audio.srcObject = stream;
+  audio.play().catch(() => {});
+}
+
+async function flushIce() {
+  if (!peerConnection || !peerConnection.remoteDescription) return;
+  const queued = pendingIce.splice(0);
+  for (const candidate of queued) {
+    try { await peerConnection.addIceCandidate(new RTCIceCandidate(candidate)); } catch (_) {}
+  }
+}
+
+async function makePeerConnection(peerId) {
+  pendingIce = [];
+  peerConnection = new RTCPeerConnection(ICE_SERVERS);
+  if (localStream) {
+    localStream.getTracks().forEach((track) => peerConnection.addTrack(track, localStream));
+  }
+  peerConnection.ontrack = (event) => {
+    attachRemoteAudio(event.streams[0] || new MediaStream(event.track ? [event.track] : []));
+    document.getElementById("callStatus").textContent = "Connected";
+  };
+  peerConnection.onicecandidate = (event) => {
+    if (event.candidate && window.kyroSocket) {
+      window.kyroSocket.emit("webrtc-ice", { to: peerId, candidate: event.candidate });
+    }
+  };
+  peerConnection.onconnectionstatechange = () => {
+    const state = peerConnection && peerConnection.connectionState;
+    if (!state) return;
+    document.getElementById("callStatus").textContent =
+      state === "connected" ? "Connected" :
+      state === "failed" || state === "disconnected" ? "Call failed. Try again." :
+      "Connecting…";
+  };
+  return peerConnection;
+}
+
+async function hangUp(notify) {
+  const peerId = callPeer && callPeer.id;
+  if (notify && peerId && window.kyroSocket) window.kyroSocket.emit("call-end", { to: peerId });
+  if (peerConnection) {
+    peerConnection.close();
+    peerConnection = null;
+  }
+  if (localStream) {
+    localStream.getTracks().forEach((track) => track.stop());
+    localStream = null;
+  }
+  incomingOffer = null;
+  pendingIce = [];
+  callPeer = null;
+  callRole = "";
+  const audio = document.getElementById("remoteAudio");
+  audio.srcObject = null;
+  closeModal("callModal");
+}
+
+async function startCall(peer) {
+  if (!window.kyroSocket || !window.kyroSocket.connected) {
+    document.getElementById("callStatus").textContent = "Socket is not connected.";
+    setCallUi({ name: peer.name, avatar: peer.avatar, status: "Cannot call until chat socket is online." });
+    return;
+  }
+  callPeer = peer;
+  callRole = "caller";
+  logCall(peer.name, "Outgoing");
+  setCallUi({ name: peer.name, avatar: peer.avatar, status: "Calling…", incoming: false });
+  try {
+    await getMic();
+    window.kyroSocket.emit("call-user", { to: peer.id, name: meName });
+  } catch (err) {
+    document.getElementById("callStatus").textContent = err.message || "Microphone permission is needed.";
+  }
+}
+
+document.getElementById("threadCall").addEventListener("click", () => {
+  if (currentPeer) startCall(currentPeer);
+});
+document.getElementById("endCall").addEventListener("click", () => hangUp(true));
+document.getElementById("closeCallSheet").addEventListener("click", () => hangUp(true));
+document.getElementById("rejectCall").addEventListener("click", () => {
+  if (callPeer && window.kyroSocket) window.kyroSocket.emit("call-reject", { to: callPeer.id });
+  hangUp(false);
+});
+document.getElementById("acceptCall").addEventListener("click", async () => {
+  if (!callPeer) return;
+  try {
+    await getMic();
+    window.kyroSocket.emit("call-accept", { to: callPeer.id });
+    document.getElementById("acceptCall").hidden = true;
+    document.getElementById("rejectCall").hidden = true;
+    document.getElementById("endCall").hidden = false;
+    document.getElementById("callStatus").textContent = "Connecting…";
+    if (incomingOffer) await answerOffer(incomingOffer);
+  } catch (err) {
+    document.getElementById("callStatus").textContent = err.message || "Could not accept call.";
+  }
+});
+
+async function answerOffer(sdp) {
+  if (!callPeer) return;
+  if (!peerConnection) await makePeerConnection(callPeer.id);
+  await peerConnection.setRemoteDescription(new RTCSessionDescription(sdp));
+  await flushIce();
+  const answer = await peerConnection.createAnswer();
+  await peerConnection.setLocalDescription(answer);
+  window.kyroSocket.emit("webrtc-answer", { to: callPeer.id, sdp: answer });
+}
+
+function bindCallSocket(socket) {
+  socket.on("incoming-call", (data) => {
+    callPeer = {
+      id: data.from,
+      name: data.fromName || data.name || "Kyro user",
+      avatar: data.fromAvatar || ""
+    };
+    callRole = "callee";
+    logCall(callPeer.name, "Incoming");
+    setCallUi({
+      name: callPeer.name,
+      avatar: callPeer.avatar,
+      status: "Incoming voice call",
+      incoming: true
+    });
+  });
+  socket.on("webrtc-offer", async (data) => {
+    incomingOffer = data.sdp;
+    if (!callPeer) {
+      callPeer = { id: data.from, name: data.fromName || "Kyro user", avatar: data.fromAvatar || "" };
+    }
+    if (callRole === "callee" && localStream) await answerOffer(data.sdp);
+  });
+  socket.on("call-accepted", async () => {
+    document.getElementById("callStatus").textContent = "Accepted. Connecting…";
+    if (!callPeer) return;
+    if (!localStream) await getMic();
+    await makePeerConnection(callPeer.id);
+    const offer = await peerConnection.createOffer({ offerToReceiveAudio: true });
+    await peerConnection.setLocalDescription(offer);
+    socket.emit("webrtc-offer", { to: callPeer.id, sdp: offer });
+  });
+  socket.on("webrtc-answer", async (data) => {
+    if (!peerConnection || !data.sdp) return;
+    await peerConnection.setRemoteDescription(new RTCSessionDescription(data.sdp));
+    await flushIce();
+    document.getElementById("callStatus").textContent = "Connected";
+  });
+  socket.on("webrtc-ice", async (data) => {
+    if (!data.candidate) return;
+    if (!peerConnection || !peerConnection.remoteDescription) {
+      pendingIce.push(data.candidate);
+      return;
+    }
+    try { await peerConnection.addIceCandidate(new RTCIceCandidate(data.candidate)); } catch (_) {}
+  });
+  socket.on("call-rejected", () => {
+    document.getElementById("callStatus").textContent = "Call declined";
+    setTimeout(() => hangUp(false), 800);
+  });
+  socket.on("call-ended", () => hangUp(false));
+  socket.on("call-unavailable", () => {
+    document.getElementById("callStatus").textContent = "This person is not online.";
+  });
+}
+
+function renderCalls() {
+  const box = document.getElementById("callList");
+  box.innerHTML = "";
+  load(LS.calls, []).forEach((c) => {
+    const row = document.createElement("div");
+    row.className = "row";
+    row.innerHTML = "<div class='row-avatar'>☎</div><div><b></b><span></span></div>";
+    row.querySelector("b").textContent = c.name;
+    row.querySelector("span").textContent = new Date(c.at).toLocaleString();
+    box.appendChild(row);
+  });
+}
+
+let storyType = "text";
+document.getElementById("addStoryBtn").addEventListener("click", () => openModal("storyModal"));
+document.getElementById("closeStory").addEventListener("click", () => closeModal("storyModal"));
+document.querySelectorAll(".story-type").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    storyType = btn.dataset.type;
+    document.querySelectorAll(".story-type").forEach((b) => b.classList.toggle("is-on", b === btn));
+    document.getElementById("storyTextBox").hidden = storyType !== "text";
+    document.getElementById("storyImageBox").hidden = storyType !== "image";
+    document.getElementById("storyMusicBox").hidden = storyType !== "music";
+  });
+});
+
+document.getElementById("storyForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const story = {
+    name: meName,
+    type: storyType,
+    at: Date.now(),
+    expires: Date.now() + 24 * 60 * 60 * 1000,
+    text: ""
+  };
+  if (storyType === "text") {
+    story.text = document.getElementById("storyText").value.trim();
+    if (!story.text) return;
+  }
+  if (storyType === "image") {
+    const file = document.getElementById("storyImage").files[0];
+    if (!file) return;
+    story.image = await Kyro.fileToDataUrl(file);
+    story.text = "Photo story";
+  }
+  if (storyType === "music") {
+    const file = document.getElementById("storyMusic").files[0];
+    if (!file) return;
+    story.text = document.getElementById("storyMusicTitle").value.trim() || file.name;
+    story.musicName = file.name;
+    story.music = await new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.readAsDataURL(file);
+    });
+  }
+  const stories = load(LS.stories, []).filter((s) => !s.expires || s.expires > Date.now());
+  stories.unshift(story);
+  save(LS.stories, stories);
+  closeModal("storyModal");
+  renderStories();
+});
+
+function renderStories() {
+  const box = document.getElementById("storyList");
+  box.innerHTML = "";
+  load(LS.stories, []).filter((s) => !s.expires || s.expires > Date.now()).forEach((s) => {
+    const row = document.createElement("div");
+    row.className = "row story-card";
+    row.innerHTML = "<div class='row-avatar'></div><div class='grow'><b></b><span></span></div>";
+    setAvatar(row.querySelector(".row-avatar"), s.image || "", s.name);
+    row.querySelector("b").textContent = s.name;
+    row.querySelector("span").textContent = (s.type || "text") + " · " + (s.text || "");
+    if (s.music) {
+      const audio = document.createElement("audio");
+      audio.controls = true;
+      audio.src = s.music;
+      audio.style.width = "100%";
+      row.querySelector(".grow").appendChild(audio);
+    }
+    box.appendChild(row);
+  });
+}
+
+document.getElementById("addCommunityBtn").addEventListener("click", () => {
+  const name = prompt("Community name");
+  if (!name) return;
+  const list = load(LS.communities, []);
+  list.unshift({ name });
+  save(LS.communities, list);
+  renderCommunities();
+});
+
+function renderCommunities() {
+  const box = document.getElementById("communityList");
+  box.innerHTML = "";
+  load(LS.communities, []).forEach((c) => {
+    const row = document.createElement("div");
+    row.className = "row";
+    row.innerHTML = "<div class='row-avatar'>⌂</div><div><b></b><span>Community</span></div>";
+    row.querySelector("b").textContent = c.name;
+    box.appendChild(row);
+  });
+}
+
+document.getElementById("loadUsersBtn").addEventListener("click", async () => {
+  const box = document.getElementById("adminUsers");
+  box.textContent = "Loading…";
+  const data = await Kyro.request("/api/admin/users");
+  const users = asArray(data);
+  box.innerHTML = "";
+  if (!data._ok) {
+    box.textContent = data.message || "Admin only.";
+    return;
+  }
+  users.forEach((u) => {
+    const row = document.createElement("div");
+    row.className = "row";
+    row.innerHTML = "<div class='row-avatar'></div><div><b></b><span></span></div>";
+    setAvatar(row.querySelector(".row-avatar"), u.avatar, u.fullName || u.email);
+    row.querySelector("b").textContent = u.fullName || u.email;
+    row.querySelector("span").textContent = (u.email || "") + " · " + (u.role || "user");
+    box.appendChild(row);
+  });
+});
+
+function upsertChatPreview(peerId, text) {
+  const idx = chats.findIndex((c) => String(peerFrom(c).id) === String(peerId));
+  if (idx >= 0) {
+    const item = chats.splice(idx, 1)[0];
+    item.lastMessage = { text };
+    item.preview = text;
+    chats.unshift(item);
+    return;
+  }
+  const contact = load(LS.contacts, []).find((c) => String(c.id) === String(peerId));
+  chats.unshift(contact ? { user: contact, lastMessage: { text } } : {
+    id: peerId,
+    name: "Kyro user",
+    lastMessage: { text }
+  });
+}
+
+function applyIncoming(msg) {
+  const mid = String(msg._id || "");
+  if (mid && seenMessages.has(mid)) return;
+  if (mid) seenMessages.add(mid);
+
+  const from = String(msg.senderId || msg.from || "");
+  const to = String(msg.receiverId || msg.to || "");
+  const mine = from === meId;
+  const peerId = mine ? to : from;
+  const text = msg.text || msg.content || msg.message || "";
+  if (!peerId || !text) return;
+
+  const open = currentPeer && String(currentPeer.id) === String(peerId);
+  if (open) {
+    const box = document.getElementById("messages");
+    if (box.querySelector(".hint")) box.innerHTML = "";
+    if (!mine) {
+      const bubble = document.createElement("div");
+      bubble.className = "bubble them";
+      bubble.textContent = text;
+      box.appendChild(bubble);
+      box.scrollTop = box.scrollHeight;
+    }
+    clearUnread(peerId);
+  } else if (!mine) {
+    addUnread(peerId);
+  }
+
+  upsertChatPreview(peerId, text);
+  renderChats(chats);
+}
+
+function connectSocket() {
+  if (typeof io !== "function") return;
+  const token = Kyro.getToken();
+  if (!token || token === "session") return;
+  const socket = io(Kyro.API_BASE, { auth: { token }, transports: ["websocket", "polling"] });
+  window.kyroSocket = socket;
+  socket.on("new-message", applyIncoming);
+  socket.on("chat-updated", applyIncoming);
+  bindCallSocket(socket);
+}
+
+function hideKyroLoader() {
+  ["plusModal", "contactModal", "groupModal", "callModal"].forEach(closeModal);
+  document.getElementById("threadScreen").hidden = true;
+  showTab("chats");
+  document.body.classList.remove("is-loading");
+  document.body.classList.add("loader-out");
+  const loader = document.getElementById("kyroLoader");
+  if (loader) setTimeout(() => loader.remove(), 500);
+}
+
+(async () => {
+  try {
+    const meRes = await Kyro.api.me();
+    if (meRes && meRes._ok) {
+      const profile = Kyro.extractUser(meRes);
+      if (profile && (profile.email || profile._id)) {
+        Kyro.setSession(Kyro.getToken(), profile);
+        me = Kyro.getUser() || profile;
+        meName = me.fullName || [me.firstName, me.lastName].filter(Boolean).join(" ") || meName;
+        meId = String(me._id || me.id || meId);
+        isAdmin = me.role === "admin";
+      }
+    } else if (meRes && meRes._status === 401 && Kyro.getToken() !== "session") {
+      Kyro.clearSession();
+      location.replace("login.html");
+      return;
+    }
+  } catch (_) {}
+  paintMe();
+  renderStories();
+  renderCommunities();
+  renderCalls();
+  await loadChats();
+  paintChatBadge();
+  connectSocket();
+  const wait = new Promise((r) => setTimeout(r, 1100));
+  await wait;
+  hideKyroLoader();
+})();

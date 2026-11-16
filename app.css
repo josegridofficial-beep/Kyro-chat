@@ -105,7 +105,7 @@ html, body.app-body {
   color: var(--text, #f4f6ff);
   background:
     linear-gradient(180deg, rgba(10, 10, 28, 0.78), rgba(7, 7, 18, 0.9)),
-    url("https://files.manuscdn.com/search-media/310519664080918235/gBoqnpmfqZuKQ8LN73tzbE/BKEzHJwq9KQAgfiMxz427F.jpg") center / cover;
+    url("images/welcome-bg.jpg") center / cover;
   box-shadow: 0 0 80px rgba(91, 54, 255, 0.18);
   animation: appIn 0.55s ease both;
 }
