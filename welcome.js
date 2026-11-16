@@ -13,6 +13,31 @@
 
   if (!slides.length) return;
 
+  // Keep local images as the first choice. If a host does not deploy the
+  // images folder correctly, use the matching online fallback instead.
+  const imageFallbacks = {
+    'welcome-bg.jpg': 'https://files.manuscdn.com/search-media/310519664080918235/gBoqnpmfqZuKQ8LN73tzbE/BKEzHJwq9KQAgfiMxz427F.jpg',
+    'security.jpg': 'https://files.manuscdn.com/search-media/310519664080918235/gBoqnpmfqZuKQ8LN73tzbE/9iiizTtRcWtgPY3VdNYNUF.jpg',
+    'calls.jpg': 'https://files.manuscdn.com/search-media/310519664080918235/gBoqnpmfqZuKQ8LN73tzbE/qTaVDFuizEoXCwLirjPjYK.jpg',
+    'groups.jpg': 'https://files.manuscdn.com/search-media/310519664080918235/gBoqnpmfqZuKQ8LN73tzbE/w6gmxKP4temawnD8gzgLzU.jpg',
+    'founders.jpg': 'https://files.manuscdn.com/search-media/310519664080918235/gBoqnpmfqZuKQ8LN73tzbE/e3eRaSb9ox3xQJK6FxQaWi.jpg',
+    'logo.jpg': 'https://files.manuscdn.com/search-media/310519664080918235/gBoqnpmfqZuKQ8LN73tzbE/BKEzHJwq9KQAgfiMxz427F.jpg'
+  };
+
+  document.querySelectorAll('img[src^="images/"]').forEach((image) => {
+    image.loading = 'eager';
+    image.decoding = 'async';
+    image.addEventListener('error', () => {
+      const name = image.getAttribute('src').split('/').pop();
+      const fallback = imageFallbacks[name];
+      if (fallback && image.dataset.fallback !== 'used') {
+        image.dataset.fallback = 'used';
+        image.src = fallback;
+      }
+    }, { once: false });
+    if (image.complete && image.naturalWidth === 0) image.dispatchEvent(new Event('error'));
+  });
+
   function restartTimer() {
     window.clearTimeout(timer);
     timer = null;
