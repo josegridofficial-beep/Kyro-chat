@@ -1,70 +1,79 @@
 (() => {
-  const slides = [...document.querySelectorAll(".slide")];
-  const dots = document.getElementById("dots");
-  const progress = document.getElementById("progressFill");
-  const prev = document.getElementById("prevBtn");
-  const next = document.getElementById("nextBtn");
-  const skip = document.getElementById("skipBtn");
+  const slides = [...document.querySelectorAll('.slide')];
+  const onboarding = document.getElementById('onboarding');
+  const dots = document.getElementById('dots');
+  const progress = document.getElementById('progressFill');
+  const prev = document.getElementById('prevBtn');
+  const next = document.getElementById('nextBtn');
+  const skip = document.getElementById('skipBtn');
+  const SLIDE_MS = 6000;
   let current = 0;
   let startX = 0;
+  let timer = null;
 
   if (!slides.length) return;
 
+  function restartTimer() {
+    window.clearTimeout(timer);
+    timer = null;
+    if (current < slides.length - 1) timer = window.setTimeout(() => goTo(current + 1), SLIDE_MS);
+  }
+
   function render() {
     slides.forEach((slide, index) => {
-      slide.classList.toggle("is-active", index === current);
-      slide.setAttribute("aria-hidden", index === current ? "false" : "true");
+      slide.classList.toggle('is-active', index === current);
+      slide.setAttribute('aria-hidden', index === current ? 'false' : 'true');
     });
-
-    if (dots) {
-      [...dots.children].forEach((dot, index) => {
-        dot.classList.toggle("is-active", index === current);
-        dot.setAttribute("aria-selected", index === current ? "true" : "false");
-      });
-    }
-
+    onboarding?.classList.toggle('is-last', current === slides.length - 1);
+    [...(dots?.children || [])].forEach((dot, index) => {
+      dot.classList.toggle('is-active', index === current);
+      dot.setAttribute('aria-selected', index === current ? 'true' : 'false');
+    });
     if (progress) {
+      progress.classList.remove('is-running');
       progress.style.width = `${((current + 1) / slides.length) * 100}%`;
+      if (current < slides.length - 1) {
+        void progress.offsetWidth;
+        progress.style.setProperty('--slide-ms', `${SLIDE_MS}ms`);
+        progress.classList.add('is-running');
+      }
     }
-
     if (prev) prev.disabled = current === 0;
-    if (next) next.setAttribute("aria-label", current === slides.length - 1 ? "Back to first slide" : "Next slide");
+    if (next) next.setAttribute('aria-label', current === slides.length - 1 ? 'Back to first slide' : 'Next slide');
+    restartTimer();
   }
 
   function goTo(index) {
-    current = (index + slides.length) % slides.length;
+    current = Math.max(0, Math.min(index, slides.length - 1));
     render();
   }
 
-  if (dots) {
-    slides.forEach((_, index) => {
-      const dot = document.createElement("button");
-      dot.type = "button";
-      dot.className = "dot";
-      dot.setAttribute("role", "tab");
-      dot.setAttribute("aria-label", `Go to slide ${index + 1}`);
-      dot.addEventListener("click", () => goTo(index));
-      dots.appendChild(dot);
-    });
-  }
+  slides.forEach((_, index) => {
+    const dot = document.createElement('button');
+    dot.type = 'button';
+    dot.className = 'dot';
+    dot.setAttribute('role', 'tab');
+    dot.setAttribute('aria-label', `Go to slide ${index + 1}`);
+    dot.addEventListener('click', () => goTo(index));
+    dots?.appendChild(dot);
+  });
 
-  prev?.addEventListener("click", () => goTo(current - 1));
-  next?.addEventListener("click", () => goTo(current + 1));
-  skip?.addEventListener("click", () => goTo(slides.length - 1));
+  prev?.addEventListener('click', () => goTo(current - 1));
+  next?.addEventListener('click', () => goTo(current === slides.length - 1 ? 0 : current + 1));
+  skip?.addEventListener('click', () => goTo(slides.length - 1));
 
-  const container = document.getElementById("slides");
-  container?.addEventListener("touchstart", (event) => {
+  const container = document.getElementById('slides');
+  container?.addEventListener('touchstart', (event) => {
     startX = event.changedTouches[0].screenX;
   }, { passive: true });
-  container?.addEventListener("touchend", (event) => {
+  container?.addEventListener('touchend', (event) => {
     const distance = event.changedTouches[0].screenX - startX;
-    if (Math.abs(distance) < 45) return;
-    goTo(distance < 0 ? current + 1 : current - 1);
+    if (Math.abs(distance) >= 45) goTo(distance < 0 ? current + 1 : current - 1);
   }, { passive: true });
 
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "ArrowRight") goTo(current + 1);
-    if (event.key === "ArrowLeft") goTo(current - 1);
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowRight') goTo(current + 1);
+    if (event.key === 'ArrowLeft') goTo(current - 1);
   });
 
   render();
