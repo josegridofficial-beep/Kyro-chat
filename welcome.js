@@ -29,7 +29,7 @@
     image.decoding = 'async';
     image.addEventListener('error', () => {
       const name = image.getAttribute('src').split('/').pop();
-      const fallback = imageFallbacks[name];
+      const fallback = window.KYRO_IMAGE_DATA?.[name] || imageFallbacks[name];
       if (fallback && image.dataset.fallback !== 'used') {
         image.dataset.fallback = 'used';
         image.src = fallback;
