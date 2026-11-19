@@ -39,13 +39,19 @@
         res = null; // network error: server may still be waking
       }
 
-      if (res && !WAKE_CODES.includes(res.status)) {
+      if (res) {
         const raw = await res.text();
         let data = {};
-        try { data = raw ? JSON.parse(raw) : {}; } catch { data = { message: raw }; }
-        data._ok = res.ok;
-        data._status = res.status;
-        return data;
+        let parsedJson = false;
+        try { data = raw ? JSON.parse(raw) : {}; parsedJson = Boolean(raw); } catch { data = { message: raw }; }
+        // Render may return 502/503/504 while waking. A JSON response with a
+        // real backend message is different: return it immediately so the
+        // user sees the JWT/Turso/OTP configuration problem.
+        if (!WAKE_CODES.includes(res.status) || (parsedJson && data.message)) {
+          data._ok = res.ok;
+          data._status = res.status;
+          return data;
+        }
       }
 
       if (attempt < WAKE_DELAYS.length) {
