@@ -1059,7 +1059,13 @@ document.getElementById("chooseGroup").addEventListener("click", () => {
   closeModal("plusModal");
   const box = document.getElementById("groupPeople");
   box.innerHTML = "";
-  const people = load(LS.contacts, []);
+  const people = [];
+  const seenPeople = new Set([String(meId)]);
+  chats.map(peerFrom).concat(load(LS.contacts, [])).forEach((p) => {
+    if (!p || !p.id || seenPeople.has(String(p.id))) return;
+    seenPeople.add(String(p.id));
+    people.push(p);
+  });
   if (!people.length) box.innerHTML = "<p class='hint'>Add contacts first.</p>";
   people.forEach((p) => {
     const row = document.createElement("label");
@@ -1080,10 +1086,11 @@ document.getElementById("contactForm").addEventListener("submit", async (e) => {
   const msg = document.getElementById("contactMsg");
   msg.className = "form-msg";
   msg.textContent = "Checking Kyro Chat…";
-  const data = await Kyro.api.lookup(q, () => {
+  const data = await Kyro.api.addContact(q);
+  if (data._status === 502 || data._status === 503 || data._status === 504) {
     msg.textContent = "Waking up the server. The first check can take up to a minute…";
-  });
-  const found = asArray(data);
+  }
+  const found = data.user ? [data.user] : [];
   if (!data._ok) {
     msg.className = "form-msg bad";
     msg.textContent = data.message || "Could not check right now.";
@@ -1101,7 +1108,7 @@ document.getElementById("contactForm").addEventListener("submit", async (e) => {
   contacts.unshift(peer);
   save(LS.contacts, contacts);
   msg.className = "form-msg";
-  msg.textContent = "Successful. This contact is on Kyro Chat.";
+  msg.textContent = "Contact added. You can start chatting now.";
   renderSearchResults([peer]);
   setTimeout(() => {
     closeModal("contactModal");

@@ -171,6 +171,12 @@
       const q = encodeURIComponent(String(query).replace(/^@/, ""));
       return request("/api/users/lookup?q=" + q + "&email=" + q + "&phone=" + q + "&username=" + q, { onWait });
     },
+    addContact(email) {
+      return request("/api/users/contacts", { method: "POST", body: { email } });
+    },
+    contacts() {
+      return request("/api/users/contacts");
+    },
     messages(otherUserId) {
       return request("/api/messages/" + encodeURIComponent(otherUserId));
     },
