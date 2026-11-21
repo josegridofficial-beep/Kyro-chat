@@ -173,6 +173,7 @@ function showTab(name) {
   document.getElementById("topTitle").textContent = titles[name] || "Kyro";
   document.getElementById("searchToggle").hidden = name !== "chats";
   if (name !== "chats") document.getElementById("searchBar").hidden = true;
+  if (name === "chats") loadChats().catch(() => {});
 }
 
 document.querySelectorAll(".tab").forEach((btn) => {
@@ -450,6 +451,10 @@ async function loadChats() {
       if (id && !merged.has(id)) merged.set(id, { user, preview: "Saved contact", lastMessage: null });
     });
   }
+  load("kyro.chat-cache", []).forEach((item) => {
+    const id = String(peerFrom(item).id || "");
+    if (id && !merged.has(id)) merged.set(id, item);
+  });
   chats = [...merged.values()].sort((a, b) => {
     const ad = new Date((a.lastMessage && a.lastMessage.createdAt) || a.updatedAt || 0).getTime();
     const bd = new Date((b.lastMessage && b.lastMessage.createdAt) || b.updatedAt || 0).getTime();
@@ -1816,20 +1821,28 @@ document.getElementById("loadUsersBtn").addEventListener("click", async () => {
 });
 
 function upsertChatPreview(peerId, text) {
+  const now = new Date().toISOString();
   const idx = chats.findIndex((c) => String(peerFrom(c).id) === String(peerId));
   if (idx >= 0) {
     const item = chats.splice(idx, 1)[0];
-    item.lastMessage = { text, createdAt: new Date().toISOString() };
+    item.lastMessage = { text, createdAt: now };
     item.preview = text;
     chats.unshift(item);
+    const cache = load("kyro.chat-cache", []).filter((c) => String(peerFrom(c).id) !== String(peerId));
+    cache.unshift(item);
+    save("kyro.chat-cache", cache.slice(0, 100));
     return;
   }
   const contact = load(LS.contacts, []).find((c) => String(c.id) === String(peerId));
-  chats.unshift(contact ? { user: contact, lastMessage: { text, createdAt: new Date().toISOString() } } : {
+  const item = contact ? { user: contact, lastMessage: { text, createdAt: now } } : {
     id: peerId,
     name: "Kyro user",
-    lastMessage: { text, createdAt: new Date().toISOString() }
-  });
+    lastMessage: { text, createdAt: now }
+  };
+  chats.unshift(item);
+  const cache = load("kyro.chat-cache", []).filter((c) => String(peerFrom(c).id) !== String(peerId));
+  cache.unshift(item);
+  save("kyro.chat-cache", cache.slice(0, 100));
 }
 
 async function applyIncoming(msg) {
@@ -1911,11 +1924,20 @@ function connectSocket() {
   if (!token || token === "session") return;
   const socket = io(Kyro.API_BASE, { auth: { token }, transports: ["websocket", "polling"] });
   window.kyroSocket = socket;
-  socket.on("connect", () => { loadChats().catch(() => {}); });
+  let refreshTimer = null;
+  const refreshChatList = () => {
+    clearTimeout(refreshTimer);
+    refreshTimer = setTimeout(() => loadChats().catch(() => {}), 120);
+  };
+  socket.on("connect", refreshChatList);
+  socket.on("reconnect", refreshChatList);
   socket.on("new-message", applyIncoming);
   socket.on("message", applyIncoming);
   socket.on("chat-updated", applyIncoming);
-  socket.on("new-message", () => { loadChats().catch(() => {}); });
+  socket.on("new-message", refreshChatList);
+  socket.on("message", refreshChatList);
+  socket.on("chat-updated", refreshChatList);
+  socket.on("notify", refreshChatList);
   socket.on("notify", handleNotify);
   socket.on("typing", (data) => {
     if (!currentPeer || String(data.userId) !== String(currentPeer.id)) return;
@@ -2126,6 +2148,9 @@ function hideKyroLoader() {
     try { await loadChats(); } catch (_) {}
     chatRefreshBusy = false;
   }, 8000);
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) loadChats().catch(() => {});
+  });
   const wait = new Promise((r) => setTimeout(r, 1100));
   await wait;
   hideKyroLoader();
