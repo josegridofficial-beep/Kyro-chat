@@ -1,6 +1,7 @@
 /* Final dashboard layer: responsive chat layout, safe mobile navigation, and opaque thread view. */
 .wa-main{min-height:0;display:flex;flex-direction:column}.tab-page{min-height:0;box-sizing:border-box}.chat-list{min-height:0}.row{min-height:68px}.row .grow>span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}.row .presence{white-space:nowrap}.chat-list .row:active{transform:scale(.985)}
 .thread-screen{height:100dvh;min-height:100dvh;overflow:hidden;background:#0b1020!important;background-color:#0b1020!important;opacity:1!important;isolation:isolate;z-index:20}.thread-screen .thread-head,.thread-screen .messages,.thread-screen .composer{background-color:#0b1020!important}.messages{min-height:0}.composer{flex-shrink:0}
+.kp-saved-wrap{display:none!important}
 @media(max-width:700px){
   body.app-body .wa-app{height:100dvh;min-height:100dvh;padding-bottom:calc(68px + env(safe-area-inset-bottom))}
   body.app-body .wa-footer{position:fixed;left:0;right:0;bottom:0;z-index:50;margin:0;border-radius:0;flex:0 0 auto;min-height:68px;padding-bottom:calc(8px + env(safe-area-inset-bottom));box-shadow:0 -8px 24px rgba(0,0,0,.30)}
@@ -24,6 +25,17 @@
 
 /* Kyro mobile composition: WhatsApp-style hierarchy, Kyro palette and content. */
 @media(max-width:700px){
+  html,body.app-body{height:auto;min-height:100%;overflow-x:hidden;overflow-y:auto}
+  body.app-body .wa-app{height:auto!important;min-height:100dvh;display:block;padding-bottom:calc(96px + env(safe-area-inset-bottom));overflow:visible}
+  body.app-body .wa-main{display:block;min-height:0;overflow:visible}
+  body.app-body .tab-page{height:auto!important;min-height:calc(100dvh - 150px);overflow:visible!important;display:none}
+  body.app-body .tab-page.is-on{display:block}
+  body.app-body .tab-page[data-tab="chats"]{padding-bottom:calc(128px + env(safe-area-inset-bottom))}
+  body.app-body .tab-page[data-tab="account"]{padding-bottom:calc(128px + env(safe-area-inset-bottom))}
+  body.app-body .kp-saved-wrap{display:none!important}
+  body.app-body .thread-head .grow,body.app-body .thread-head #peerAvatar{cursor:pointer}
+  body.app-body .thread-head #peerName{text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--cyan,#3ce7ff) 45%,transparent);text-underline-offset:4px}
+  body.app-body .tab-page[data-tab="chats"] .fab{position:fixed;right:20px;bottom:calc(86px + env(safe-area-inset-bottom));z-index:40}
   body.app-body .wa-app{background:var(--bg,#070712)}
   body.app-body .wa-top{min-height:74px;padding:calc(16px + env(safe-area-inset-top)) 20px 12px;background:var(--bg,#070712);box-shadow:none}
   body.app-body .brand-block{gap:11px}

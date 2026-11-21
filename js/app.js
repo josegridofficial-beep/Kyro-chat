@@ -473,6 +473,11 @@ function openThread(peer) {
   document.getElementById("peerName").textContent = peer.name;
   document.getElementById("peerMeta").textContent = presenceText(peer.id, peer.lastSeen);
   setAvatar(document.getElementById("peerAvatar"), peer.avatar, peer.name);
+  document.getElementById("peerAvatar").setAttribute("role", "button");
+  document.getElementById("peerAvatar").setAttribute("aria-label", "Open " + peer.name + " profile");
+  document.getElementById("peerName").setAttribute("role", "button");
+  document.getElementById("peerName").setAttribute("tabindex", "0");
+  document.getElementById("peerName").setAttribute("aria-label", "Open " + peer.name + " profile");
   const typeLine = document.getElementById("typingLine");
   if (typeLine) { typeLine.hidden = true; typeLine.textContent = ""; }
   loadMessages();

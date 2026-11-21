@@ -295,6 +295,14 @@
     e.stopPropagation();
     openPage(currentPeer);
   }, true);
+  head.addEventListener("keydown", function (e) {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    if (!e.target.closest("#peerName, #peerAvatar")) return;
+    if (!currentPeer || isGroup(currentPeer)) return;
+    e.preventDefault();
+    e.stopPropagation();
+    openPage(currentPeer);
+  }, true);
 
   $("#kcBack").addEventListener("click", closePage);
   document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !page.hidden) closePage(); });
