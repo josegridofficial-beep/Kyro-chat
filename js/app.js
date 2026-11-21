@@ -954,7 +954,23 @@ document.getElementById("composer").addEventListener("submit", async (e) => {
   const bubble = makeBubble({ mine: true, senderId: meId, text: wire, kind: "text" });
   appendMsg(box, bubble);
   box.scrollTop = box.scrollHeight;
-  try { await sendChat({ text: wire, kind: "text" }, bubble); }
+  try {
+    await sendChat({ text: wire, kind: "text" }, bubble);
+    const sentPeer = currentPeer;
+    if (sentPeer && sentPeer.id && !String(sentPeer.id).startsWith("group:")) {
+      const id = String(sentPeer.id);
+      const existing = chats.find((item) => String(peerFrom(item).id) === id);
+      if (existing) {
+        existing.preview = text;
+        existing.lastMessage = { ...(existing.lastMessage || {}), text, createdAt: new Date().toISOString() };
+        existing.updatedAt = new Date().toISOString();
+      } else {
+        chats.unshift({ user: sentPeer, preview: text, lastMessage: { text, createdAt: new Date().toISOString() }, updatedAt: new Date().toISOString() });
+      }
+      chats.sort((a, b) => new Date((b.lastMessage && b.lastMessage.createdAt) || b.updatedAt || 0) - new Date((a.lastMessage && a.lastMessage.createdAt) || a.updatedAt || 0));
+      renderChats(chats);
+    }
+  }
   catch (_) { bubble.style.opacity = "0.6"; }
 });
 
