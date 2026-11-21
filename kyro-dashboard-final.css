@@ -1,0 +1,20 @@
+/* Final dashboard layer: footer stays in layout flow and never covers content. */
+.wa-main{min-height:0;display:flex;flex-direction:column}.tab-page{min-height:0;box-sizing:border-box}.chat-list{min-height:0}.row{min-height:68px}.row .grow>span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}.row .presence{white-space:nowrap}.chat-list .row:active{transform:scale(.985)}
+.thread-screen{height:100dvh;min-height:100dvh;overflow:hidden}.messages{min-height:0}.composer{flex-shrink:0}
+@media(max-width:700px){
+  body.app-body .wa-app{height:100dvh;min-height:100dvh;padding-bottom:0}
+  body.app-body .wa-footer{position:relative;left:auto;right:auto;bottom:auto;z-index:2;margin:0;border-radius:0;flex:0 0 auto;min-height:68px;padding-bottom:calc(8px + env(safe-area-inset-bottom));box-shadow:0 -8px 24px rgba(0,0,0,.22)}
+  body.app-body .wa-main{flex:1;overflow:hidden}
+  body.app-body .tab-page{height:100%;padding-bottom:24px;overflow-y:auto;overscroll-behavior:contain}
+  body.app-body .tab-page[data-tab="chats"]{padding-bottom:26px}
+  body.app-body .tab-page[data-tab="chats"] .fab{bottom:20px;right:16px}
+  body.app-body .list{padding:4px 10px 12px}
+  body.app-body .row{margin-bottom:7px;padding:11px 10px;border-radius:17px}
+  body.app-body .row-avatar{width:48px;height:48px}
+  body.app-body .wa-search{flex:0 0 auto}
+  body.app-body .wa-top{flex:0 0 auto}
+  body.app-body .account-card{padding-bottom:18px}
+  body.app-body .tab-page[data-tab="account"]{padding-bottom:26px}
+}
+@media(min-width:701px){body.app-body .wa-footer{flex:0 0 auto}.tab-page{padding-bottom:28px}}
+@media(prefers-reduced-motion:reduce){.row{transition:none!important}}

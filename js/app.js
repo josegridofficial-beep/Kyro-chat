@@ -437,8 +437,24 @@ async function loadChats() {
     document.getElementById("chatsEmpty").hidden = true;
     box.innerHTML = skeletonRows(5);
   }
-  const data = await Kyro.api.chats();
-  chats = data._ok ? asArray(data) : [];
+  const [data, savedData] = await Promise.all([Kyro.api.chats(), Kyro.api.contacts().catch(() => ({ _ok: false, users: [] }))]);
+  const serverChats = data._ok ? asArray(data) : [];
+  const merged = new Map();
+  serverChats.forEach((item) => {
+    const peer = peerFrom(item);
+    if (peer.id) merged.set(String(peer.id), item);
+  });
+  if (savedData._ok) {
+    (savedData.users || []).forEach((user) => {
+      const id = String(user._id || user.id || "");
+      if (id && !merged.has(id)) merged.set(id, { user, preview: "Saved contact", lastMessage: null });
+    });
+  }
+  chats = [...merged.values()].sort((a, b) => {
+    const ad = new Date((a.lastMessage && a.lastMessage.createdAt) || a.updatedAt || 0).getTime();
+    const bd = new Date((b.lastMessage && b.lastMessage.createdAt) || b.updatedAt || 0).getTime();
+    return bd - ad;
+  });
   renderChats(chats);
   if (chats.length) maybeHint("kyro.hint.chat", "Tip: press and hold a chat to pin, mute or archive it.", 1200);
 }
@@ -1879,10 +1895,11 @@ function connectSocket() {
   if (!token || token === "session") return;
   const socket = io(Kyro.API_BASE, { auth: { token }, transports: ["websocket", "polling"] });
   window.kyroSocket = socket;
-  socket.on("connect", () => {});
+  socket.on("connect", () => { loadChats().catch(() => {}); });
   socket.on("new-message", applyIncoming);
   socket.on("message", applyIncoming);
   socket.on("chat-updated", applyIncoming);
+  socket.on("new-message", () => { loadChats().catch(() => {}); });
   socket.on("notify", handleNotify);
   socket.on("typing", (data) => {
     if (!currentPeer || String(data.userId) !== String(currentPeer.id)) return;
@@ -2086,6 +2103,13 @@ function hideKyroLoader() {
   await loadChats();
   paintChatBadge();
   connectSocket();
+  let chatRefreshBusy = false;
+  setInterval(async () => {
+    if (chatRefreshBusy || document.hidden) return;
+    chatRefreshBusy = true;
+    try { await loadChats(); } catch (_) {}
+    chatRefreshBusy = false;
+  }, 8000);
   const wait = new Promise((r) => setTimeout(r, 1100));
   await wait;
   hideKyroLoader();
