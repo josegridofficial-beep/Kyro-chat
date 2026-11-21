@@ -172,7 +172,7 @@ function showTab(name) {
   const titles = { chats: "Kyro", story: "Story", communities: "Communities", calls: "Calls", account: "Account" };
   document.getElementById("topTitle").textContent = titles[name] || "Kyro";
   document.getElementById("searchToggle").hidden = name !== "chats";
-  if (name !== "chats") document.getElementById("searchBar").hidden = true;
+  document.getElementById("searchBar").hidden = name !== "chats";
   if (name === "chats") loadChats().catch(() => {});
 }
 
@@ -2138,6 +2138,8 @@ function hideKyroLoader() {
   renderStories();
   renderCommunities();
   renderCalls();
+  const dashboardSearch = document.getElementById("searchBar");
+  if (dashboardSearch) dashboardSearch.hidden = false;
   await loadChats();
   paintChatBadge();
   connectSocket();
