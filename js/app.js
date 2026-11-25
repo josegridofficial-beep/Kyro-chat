@@ -432,6 +432,14 @@ function skeletonRows(n) {
   return html;
 }
 
+function chatsSignature(items) {
+  return items.map((item) => {
+    const peer = peerFrom(item);
+    const last = item.lastMessage || {};
+    return [peer.id, peer.name, peer.avatar, last.text || last.content || item.preview || "", last.createdAt || item.updatedAt || "", unreadCount(peer.id)].join("~");
+  }).join("||");
+}
+
 async function loadChats() {
   const box = document.getElementById("chatList");
   if (box && !box.children.length) {
@@ -460,7 +468,13 @@ async function loadChats() {
     const bd = new Date((b.lastMessage && b.lastMessage.createdAt) || b.updatedAt || 0).getTime();
     return bd - ad;
   });
+  const nextSignature = chatsSignature(chats);
+  if (nextSignature === loadChats._signature && box && box.children.length && !box.querySelector(".skel-row")) return;
+  const scrollHost = document.querySelector(".tab-page[data-tab=\"chats\"]");
+  const previousScroll = scrollHost ? scrollHost.scrollTop : 0;
+  loadChats._signature = nextSignature;
   renderChats(chats);
+  if (scrollHost) scrollHost.scrollTop = previousScroll;
   if (chats.length) maybeHint("kyro.hint.chat", "Tip: press and hold a chat to pin, mute or archive it.", 1200);
 }
 
@@ -1092,6 +1106,10 @@ document.getElementById("recBtn").addEventListener("click", async () => {
 
 document.getElementById("plusBtn").addEventListener("click", () => openModal("plusModal"));
 document.getElementById("emptyPlus").addEventListener("click", () => openModal("plusModal"));
+const chatFab = document.getElementById("chatFab");
+if (chatFab) chatFab.addEventListener("click", () => openModal("plusModal"));
+const emptyPlusFallback = document.getElementById("emptyPlusFallback");
+if (emptyPlusFallback) emptyPlusFallback.addEventListener("click", () => openModal("plusModal"));
 document.getElementById("closePlus").addEventListener("click", () => closeModal("plusModal"));
 document.getElementById("chooseContact").addEventListener("click", () => {
   closeModal("plusModal");
