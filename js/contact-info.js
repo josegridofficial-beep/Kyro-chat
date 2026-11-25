@@ -16,7 +16,14 @@
     call: "M6.6 10.8c1.5 3 3.6 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1.1-.2 1.2.4 2.5.6 3.8.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.6.6 3.8.1.4 0 .8-.3 1.1L6.6 10.8z",
     video: "M17 10.5V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3.5l4 4v-11l-4 4z",
     search: "M15.5 14h-.8l-.3-.3A6.5 6.5 0 1 0 14 15.5l.3.3v.8l5 5 1.5-1.5-5-5zm-6 0a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z",
-    save: "M15 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4zM6 11V8H4v3H1v2h3v3h2v-3h3v-2H6zm9 3c-2.7 0-8 1.3-8 4v2h16v-2c0-2.7-5.3-4-8-4z"
+    save: "M15 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4zM6 11V8H4v3H1v2h3v3h2v-3h3v-2H6zm9 3c-2.7 0-8 1.3-8 4v2h16v-2c0-2.7-5.3-4-8-4z",
+    star: "M12 3.8l2.5 5.1 5.7.8-4.1 4 1 5.7-5.1-2.7-5.1 2.7 1-5.7-4.1-4 5.7-.8L12 3.8z",
+    timer: "M9 2h6v2H9V2zm3 4a6 6 0 1 0 4.2 10.2l1.4 1.4A8 8 0 1 1 18 12h-2a4 4 0 1 0-4 4v2a6 6 0 0 0 0-12zm1 2v4l2.5 1.5-1 1.7L11 13V8h2z",
+    palette: "M12 3a9 9 0 0 0 0 18h1.3a1.7 1.7 0 0 0 1.2-2.9 1.7 1.7 0 0 1 1.2-2.9H18a3 3 0 0 0 3-3A9 9 0 0 0 12 3zM7 11a1.2 1.2 0 1 1 0-2.4A1.2 1.2 0 0 1 7 11zm3-4a1.2 1.2 0 1 1 0-2.4A1.2 1.2 0 0 1 10 7zm4 0a1.2 1.2 0 1 1 0-2.4A1.2 1.2 0 0 1 14 7zm3 4a1.2 1.2 0 1 1 0-2.4A1.2 1.2 0 0 1 17 11z",
+    lock: "M7 10V8a5 5 0 0 1 10 0v2h2v11H5V10h2zm2 0h6V8a3 3 0 0 0-6 0v2zm3 3a2 2 0 0 0-1 3.7V19h2v-2.3A2 2 0 0 0 12 13z",
+    share: "M18 16a3 3 0 0 0-2.3 1.1l-6.2-3.5a3.3 3.3 0 0 0 0-3.2l6.2-3.5A3 3 0 1 0 15 5c0 .3 0 .6.1.9L8.9 9.4a3 3 0 1 0 0 5.2l6.2 3.5A3 3 0 1 0 18 16z",
+    block: "M12 3a9 9 0 1 0 9 9 9 9 0 0 0-9-9zm0 2a7 7 0 0 1 4.9 2L7 16.9A7 7 0 0 1 12 5zm-5 13.4L16.4 7A7 7 0 0 1 7 18.4z",
+    warning: "M12 3 1.8 21h20.4L12 3zm0 5 1 7h-2l1-7zm0 10a1.2 1.2 0 1 0 0-2.4A1.2 1.2 0 0 0 12 18z"
   };
 
   function h(tag, cls, text) {
@@ -87,7 +94,7 @@
   page.setAttribute("role", "dialog");
   page.setAttribute("aria-label", "Contact info");
   page.innerHTML =
-    '<header class="kc-top"><button class="icon-round" id="kcBack" type="button" aria-label="Back">\u2190</button><strong>Contact info</strong></header>' +
+    '<header class="kc-top"><button class="icon-round" id="kcBack" type="button" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button><strong>Contact info</strong></header>' +
     '<div class="kc-scroll">' +
       '<div class="kc-hero">' +
         '<button class="kc-avatar" id="kcAvatar" type="button" aria-label="View photo"></button>' +
@@ -101,21 +108,23 @@
         '<div class="kc-strip" id="kcStrip"></div><div class="kc-counts" id="kcCounts"></div></div>' +
       '<div class="kc-card kc-rows">' +
         '<label class="set-row"><span>Mute notifications<small>Stop pop-ups and sounds from this chat</small></span><span class="switch"><input type="checkbox" id="kcMute" /><i></i></span></label>' +
-        '<button class="kc-row" id="kcStars" type="button"><span class="kc-ico">\u2B50</span><span class="grow">Starred messages</span><em id="kcStarCount"></em><i>\u203A</i></button>' +
-        '<div class="kc-row"><span class="kc-ico">\u23F3</span><span class="grow">Disappearing messages</span><select id="kcDisappear"><option value="0">Off</option><option value="86400">24 hours</option><option value="604800">7 days</option><option value="7776000">90 days</option></select></div>' +
-        '<button class="kc-row" id="kcTheme" type="button"><span class="kc-ico">\uD83C\uDF08</span><span class="grow">Chat theme<small>Colours and a photo from your gallery</small></span><i>\u203A</i></button>' +
-        '<button class="kc-row" id="kcWall" type="button"><span class="kc-ico">\uD83C\uDFA8</span><span class="grow">Chat wallpaper</span><i>\u203A</i></button>' +
-        '<button class="kc-row" id="kcEnc" type="button"><span class="kc-ico">\uD83D\uDD12</span><span class="grow">Encryption<small>Messages and calls are end-to-end encrypted. Tap to verify.</small></span><i>\u203A</i></button>' +
+        '<button class="kc-row" id="kcStars" type="button"><span class="kc-ico ico-star" aria-hidden="true"></span><span class="grow">Starred messages</span><em id="kcStarCount"></em><i>\u203A</i></button>' +
+        '<div class="kc-row"><span class="kc-ico ico-timer" aria-hidden="true"></span><span class="grow">Disappearing messages</span><select id="kcDisappear"><option value="0">Off</option><option value="86400">24 hours</option><option value="604800">7 days</option><option value="7776000">90 days</option></select></div>' +
+        '<button class="kc-row" id="kcTheme" type="button"><span class="kc-ico ico-palette" aria-hidden="true"></span><span class="grow">Chat theme<small>Colours and a photo from your gallery</small></span><i>\u203A</i></button>' +
+        '<button class="kc-row" id="kcWall" type="button"><span class="kc-ico ico-palette" aria-hidden="true"></span><span class="grow">Chat wallpaper</span><i>\u203A</i></button>' +
+        '<button class="kc-row" id="kcEnc" type="button"><span class="kc-ico ico-lock" aria-hidden="true"></span><span class="grow">Encryption<small>Messages and calls are end-to-end encrypted. Tap to verify.</small></span><i>\u203A</i></button>' +
       '</div>' +
       '<div class="kc-card" id="kcGroupsCard" hidden><h4 id="kcGroupsH">Groups in common</h4><div id="kcGroups"></div></div>' +
       '<div class="kc-card kc-rows">' +
-        '<button class="kc-row" id="kcShare" type="button"><span class="kc-ico">\u2197\uFE0F</span><span class="grow">Share contact</span></button>' +
-        '<button class="kc-row bad" id="kcBlock" type="button"><span class="kc-ico">\uD83D\uDEAB</span><span class="grow">Block</span></button>' +
-        '<button class="kc-row bad" id="kcReport" type="button"><span class="kc-ico">\u26A0\uFE0F</span><span class="grow">Report</span></button>' +
+        '<button class="kc-row" id="kcShare" type="button"><span class="kc-ico ico-share" aria-hidden="true"></span><span class="grow">Share contact</span></button>' +
+        '<button class="kc-row bad" id="kcBlock" type="button"><span class="kc-ico ico-block" aria-hidden="true"></span><span class="grow">Block</span></button>' +
+        '<button class="kc-row bad" id="kcReport" type="button"><span class="kc-ico ico-warning" aria-hidden="true"></span><span class="grow">Report</span></button>' +
       '</div>' +
       '<p class="kc-foot">Founded by Mr Vael Tech</p>' +
     '</div>';
   document.body.appendChild(page);
+  var rowIconMap = { "ico-star": ICON.star, "ico-timer": ICON.timer, "ico-palette": ICON.palette, "ico-lock": ICON.lock, "ico-share": ICON.share, "ico-block": ICON.block, "ico-warning": ICON.warning };
+  Object.keys(rowIconMap).forEach(function (cls) { var el = $("." + cls, page); if (el) el.appendChild(svg(rowIconMap[cls])); });
 
   var peer = null, prof = null, token = 0, presenceTimer = null;
   var actions = {};
@@ -260,6 +269,10 @@
 
   function openPage(p) {
     peer = p; prof = null;
+    var appRoot = document.getElementById("appRoot");
+    var thread = document.getElementById("threadScreen");
+    if (appRoot) appRoot.hidden = true;
+    if (thread) thread.hidden = true;
     var myToken = ++token;
     render();
     page.hidden = false;
@@ -285,6 +298,10 @@
     page.hidden = true;
     token++;
     clearInterval(presenceTimer);
+    var appRoot = document.getElementById("appRoot");
+    var thread = document.getElementById("threadScreen");
+    if (appRoot) appRoot.hidden = true;
+    if (thread && currentPeer) thread.hidden = false;
   }
 
   // open from the chat header (name or photo); groups keep their own sheet

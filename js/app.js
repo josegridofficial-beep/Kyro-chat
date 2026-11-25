@@ -480,6 +480,8 @@ async function loadChats() {
 
 function openThread(peer) {
   currentPeer = peer;
+  const appRoot = document.getElementById("appRoot");
+  if (appRoot) appRoot.hidden = true;
   applyBlockState();
   applyWallpaper();
   clearUnread(peer.id);
@@ -503,6 +505,8 @@ function openThread(peer) {
 
 document.getElementById("backChat").addEventListener("click", () => {
   document.getElementById("threadScreen").hidden = true;
+  const appRoot = document.getElementById("appRoot");
+  if (appRoot) appRoot.hidden = false;
   setReply(null);
   if (typeof tsClose === "function") tsClose();
   currentPeer = null;
