@@ -49,3 +49,19 @@
 }
 
 #kpSavedRow,#kpSavedRowWrap,.kp-saved-wrap{display:none!important}
+
+/* Keep the footer fixed while the active page owns the vertical scroll. */
+html,body.app-body{height:100%;overflow:hidden}
+body.app-body .wa-app{height:100dvh!important;min-height:0!important;display:flex!important;overflow:hidden!important;padding-bottom:0!important}
+body.app-body .wa-main{flex:1 1 auto!important;min-height:0!important;overflow:hidden!important}
+body.app-body .tab-page.is-on{height:100%!important;min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important;padding-bottom:calc(132px + env(safe-area-inset-bottom))!important;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+body.app-body .kyro-v2-hero h2{font-size:24px}
+body.app-body .kyro-v2-hero p:last-child{font-size:12px}
+body.app-body .kyro-v2-list .row b{font-size:14px}
+body.app-body .kyro-v2-list .row .grow>span{font-size:11px}
+body.app-body .kyro-v2-page .page-heading h2{font-size:24px}
+body.app-body .kyro-v2-page .page-heading .hint{font-size:12px}
+body.app-body .kyro-v2-footer .tab{font-size:10px}
+body.app-body .kyro-v2-footer .tab-ico{width:30px;height:25px}
+body.app-body .account-card h2{font-size:20px}
+body.app-body .account-card #meEmail,body.app-body .account-card #meRoleLine{font-size:12px}
